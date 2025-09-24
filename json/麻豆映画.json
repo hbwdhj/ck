@@ -5,7 +5,7 @@
 {
   "站名": "麻豆映画",
   "主页url": "https://l62lyi.mdpj-soda.buzz/",
-  "分类url":" https://l62lyi.mdpj-soda.buzz/index.php/&m=vodtype/{cateId}/page/{catePg}.html",
+  "分类url":" https://l62lyi.mdpj-soda.buzz/vodtype/{cateId}/page/{catePg}.html",
   "分类":"麻豆原创$mdapp1#原创伙伴$mdapp2#节目企划$mdapp3#国产片商$mdapp32",
 
   "数组":"<div class=\"col-sm-4\">&&</div>",
