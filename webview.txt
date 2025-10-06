@@ -1,8 +1,7 @@
-﻿
-
-央视频,#genre#
+﻿央视频,#genre#
 CCTV-1综合,webview://https://yangshipin.cn/tv/home?pid=600001859
 CCTV-2财经,webview://https://yangshipin.cn/tv/home?pid=600001800
+CCTV-3综艺,webview://https://yangshipin.cn/tv/home?pid=600001801
 CCTV-4中文国际,webview://https://yangshipin.cn/tv/home?pid=600001814
 CCTV-5体育,webview://https://yangshipin.cn/tv/home?pid=600001818
 CCTV5+体育赛事,webview://https://www.yangshipin.cn/tv/home?pid=600001817
