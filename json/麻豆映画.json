@@ -1,11 +1,12 @@
 // 发布页: 紙飛机@Madou168
 // 邮箱Madou168888@Gmail.Com
 //发布网址https://xn--8qr0ab468lj80b.mdmvqicb.xyz/go/index.html
+//备用网址https://t6d8m5s8.mdpj-mass.buzz/mdpj/
 
 {
   "站名": "麻豆映画",
   "主页url":"https://f2d8m5s8.mdpj-mass.buzz/mdpj/",
-  "分类url":"https://f2d8m5s8.mdpj-mass.buzz/mdpj/vodtype/{cateId}/page/{catePg}.html",
+  "分类url":"https://f2d8m5s8.mdpj-mass.buzz/vodtype/{cateId}/page/{catePg}.html",
   "分类":"麻豆原创$mdapp1#原创伙伴$mdapp2#节目企划$mdapp3#国产片商$mdapp32",
 
   "数组":"<div class=\"col-sm-4\">&&</div>",
@@ -34,7 +35,7 @@
   "播放数组": "body&&</body>",
   "播放列表": "player_data&&views-comments[替换:12345>>空]",
   "播放标题": "title=\"&&\"",
-  "播放请求头":"referer$https://l62lyi.mdpj-soda.buzz/",
+  "播放请求头":"referer$https://f2d8m5s8.mdpj-mass.buzz/mdpj/",
   "播放链接": "Base64(url\":\"&&\")[替换:incex>>1000kb/hls/index]",
   
   "免嗅":"1",
