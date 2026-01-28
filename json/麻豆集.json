@@ -7,7 +7,7 @@
     "图片是否需要代理":"0",
     "是否开启获取首页数据":"1",
 	 //首页推荐数据获取链接
-    "首页推荐链接": "https://madouji.com/videos.html",
+    "首页推荐链接": "https://av1024.me/videos.html",
     //首页推荐列表数组截取。
     "首页列表数组规则": ".videos",
     //首页推荐片单列表数组定位。
@@ -29,7 +29,7 @@
     "首页片单链接加后缀": "",
     "分类起始页码": "1",
     //"分类链接": "https://www.l0l.tv/index.php/vod/show/id/{cateId}/page/{catePg}.html",
-	"分类链接": "https://madouji.com/videos{cateId}/{catePg}.html",
+	"分类链接": "https://av1024.me/videos{cateId}/{catePg}.html",
     "分类名称": "全部视频",
     "分类名称替换词": "",
     //"筛选数据":{},
@@ -43,7 +43,7 @@
     "分类片单链接加前缀": "https://xchina.biz",
     "分类片单链接加后缀": "",
     "搜索请求头参数":"User-Agent$PC_UA",
-    "搜索链接": "https://madouji.com/index.php/ajax/suggest?mid=1&wd={wd}",
+    "搜索链接": "https://av1024.me/index.php/ajax/suggest?mid=1&wd={wd}",
     "POST请求数据":"0",
     "搜索截取模式": "0",
     "搜索列表数组规则": "list",
@@ -52,7 +52,7 @@
     "搜索片单标题": "name",
     "搜索片单链接": "id",
     "搜索片单副标题":"",
-    "搜索片单链接加前缀": "https://madouji.com/index.php/vod/detail/id/",
+    "搜索片单链接加前缀": "https://av1024.me/index.php/vod/detail/id/",
     "搜索片单链接加后缀": ".html",
        //--------
          "链接是否直接播放": "1",
@@ -74,7 +74,7 @@
     "选集标题": "a&&Text",
     "选集链接": "a&&href",
     "是否反转选集序列": "0",
-    "选集链接加前缀": "https://madouji.com",
+    "选集链接加前缀": "https://av1024.me/",
     "选集链接加后缀": "",
     "分析MacPlayer":"0",
     "是否开启手动嗅探":"1",
