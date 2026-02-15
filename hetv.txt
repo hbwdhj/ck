@@ -1436,7 +1436,7 @@ CCTV14,http://iptv.huuc.edu.cn/hls/cctv14hd.m3u8
 
 优质卫视,#genre#
 
-辽宁卫视,https://hlsbkmgsplive.miguvideo.com/wd_r2/ocn/liaoningwshd/3000/01.m3u8?&HlsSubType=&encrypt=#isVideo=true
+辽宁卫视,http://swtyc.f3322.org:8880/udp/239.69.1.71:10066#isVideo=true
 
 湖南卫视,http://utuxx.91kds.cn/live1/dsdq.m3u8?id=hnwshd&app=com.jiaoxiang.fangnale&version=2.3.4&mac=fu%3Ack%3A92%3A92%3Aff&utk=&nwtime=1771154830&ev=20250113&sign=abe895c3ae092ea923dae635237c79c1
 
