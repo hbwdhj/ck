@@ -1435,6 +1435,24 @@ CCTV14,http://iptv.huuc.edu.cn/hls/cctv14hd.m3u8
 
 
 优质卫视,#genre#
+
+辽宁卫视,https://hlsbkmgsplive.miguvideo.com/wd_r2/ocn/liaoningwshd/3000/01.m3u8?&HlsSubType=&encrypt=#isVideo=true
+
+湖南卫视,http://utuxx.91kds.cn/live1/dsdq.m3u8?id=hnwshd&app=com.jiaoxiang.fangnale&version=2.3.4&mac=fu%3Ack%3A92%3A92%3Aff&utk=&nwtime=1771154830&ev=20250113&sign=abe895c3ae092ea923dae635237c79c1
+
+江苏卫视,http://utuxx.91kds.cn/live2/jstv.m3u8?id=jswshd&app=com.jiaoxiang.fangnale&version=2.3.4&mac=fu%3Ack%3A92%3A92%3Aff&utk=&nwtime=1771155166&ev=20250113&sign=71a1371f5ddb8257415a2e6aa272da33
+
+浙江卫视,http://utuxx.91kds.cn/live1/zjtv1.m3u8?id=zjwshd&app=com.jiaoxiang.fangnale&version=2.3.4&mac=fu%3Ack%3A92%3A92%3Aff&utk=&nwtime=1771155219&ev=20250113&sign=0ce8d396fefc25a4a7f6462ec8af66ee
+
+东方卫视,http://74.91.26.218:82/live/dfwshd.m3u8#isVideo=true
+
+山东卫视,http://swtyc.f3322.org:8880/udp/239.69.1.69:10054#isVideo=true
+
+北京卫视,http://utuxx.91kds.cn/live1/btv1.m3u8?id=bjwshd&app=com.jiaoxiang.fangnale&version=2.3.4&mac=fu%3Ack%3A92%3A92%3Aff&utk=&nwtime=1771155371&ev=20250113&sign=c5e54cfcd02f6c5ac4d145ccd0839b64
+
+
+
+
 东南卫视,http://222.218.158.34:8181/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0
 东南卫视,http://113.15.187.36:8181/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0
 东南卫视,http://42.238.235.96:9901/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0
