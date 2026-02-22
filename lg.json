@@ -35,6 +35,18 @@
 
 
 
+
+    {
+      "key": "溏心传媒",
+      "name": "溏心传媒",
+      "type": 1,
+      "api": "http://86876.cc/api.php/provide/vod/from/m3u8/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
     {
       "key": "爱豆传媒",
       "name": "爱豆传媒",
@@ -46,15 +58,6 @@
 
 
 
-    {
-      "key": "溏心传媒",
-      "name": "溏心传媒",
-      "type": 1,
-      "api": "http://86876.cc/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
 
 
     {
