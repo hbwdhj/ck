@@ -59,6 +59,17 @@
 
 
 
+ {
+      "key": "souav",
+      "name": "sou资源",
+      "type": 1,
+      "api": "https://api.souavzyw.net/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
 
     {
       "key": "仓库资源",
