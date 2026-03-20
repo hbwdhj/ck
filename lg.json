@@ -27,7 +27,7 @@
       "key": "麻豆传媒",
       "name": "麻豆传媒",
       "type": 1,
-      "api": "https://gt.uczyw.com/http://www.91md.space/api.php/provide/vod/from/m3u8/",
+      "api": "https://gt.uczyw.com/https://madou.io/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
