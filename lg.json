@@ -7,8 +7,7 @@
             "key": "非凡",
             "name": "非凡",
             "type": 1,
-            "api": "http://cj.ffzyapi.com/api.php/provide/vod/?",
-            "playUrl": "json:http://127.0.0.1:10079/parse/?thread=0&proxy=noproxy&url=",
+            "api": "http://cj.ffzyapi.com/api.php/provide/vod/",
             "playerType": 1,
             "searchable": 1,
             "changeable": 1,
@@ -47,57 +46,11 @@
 
 
 
- {
-            "key": "索尼资源",
-            "name": "索尼资源",
-            "type": 1,
-            "api": "https://suoniapi.com/api.php/provide/vod/from/snm3u8/",
-            "categories": [
-                "动作片",
-                "喜剧片",
-                "爱情片",
-                "科幻片",
-                "恐怖片",
-                "剧情片",
-                "战争片",
-                "国产剧",
-                "欧美剧",
-                "韩剧",
-                "日剧",
-                "港剧",
-                "台剧",
-                "泰剧",
-                "海外剧",
-                "纪录片",
-                "大陆综艺",
-                "日韩综艺",
-                "港台综艺",
-                "欧美综艺",
-                "国产动漫",
-                "日韩动漫",
-                "欧美动漫",
-                "动画片",
-                "港台动漫",
-                "海外动漫",
-                "演唱会",
-                "体育赛事",
-                "篮球",
-                "足球",
-                "预告片",
-                "斯诺克",
-                "影视解说"
-            ],
-            "searchable": 1,
-            "quickSearch": 1
-        },
-
-
-
 
 
    {
-      "key": "量子资源",
-      "name": "量子资源",
+      "key": "量子",
+      "name": "量子",
       "type": 1,
       "api": "https://cj.lziapi.com/api.php/provide/vod",
       "searchable": 1,
@@ -107,8 +60,8 @@
 
 
     {
-      "key": "麻豆传媒",
-      "name": "麻豆传媒",
+      "key": "麻豆",
+      "name": "麻豆",
       "type": 1,
       "api": "https://gt.uczyw.com/https://madou.io/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
@@ -120,8 +73,8 @@
 
 
     {
-      "key": "溏心传媒",
-      "name": "溏心传媒",
+      "key": "溏心",
+      "name": "溏心",
       "type": 1,
       "api": "http://86876.cc/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
@@ -131,8 +84,8 @@
 
 
     {
-      "key": "爱豆传媒",
-      "name": "爱豆传媒",
+      "key": "爱豆",
+      "name": "爱豆",
       "type": 1,
       "api": "https://aidou.la/api.php/provide/vod/",
       "searchable": 1,
@@ -144,7 +97,7 @@
 
  {
       "key": "souav",
-      "name": "sou资源",
+      "name": "sou",
       "type": 1,
       "api": "https://api.souavzyw.net/api.php/provide/vod/",
       "searchable": 1,
@@ -155,8 +108,8 @@
 
 
     {
-      "key": "仓库资源",
-      "name": "仓库资源",
+      "key": "仓库①",
+      "name": "仓库①",
       "type": 1,
       "api": "https://hsckzy.vip/api.php/provide/vod/",
       "searchable": 1,
@@ -167,8 +120,8 @@
 
 
     {
-      "key": "黄色仓库",
-      "name": "黄色仓库",
+      "key": "仓库②",
+      "name": "仓库②",
       "type": 1,
       "api": "https://hsckzy888.com/api.php/provide/vod/at/json/",
       "searchable": 1,
@@ -178,8 +131,8 @@
 
 
     {
-      "key": "十里桃花",
-      "name": "十里桃花",
+      "key": "桃花",
+      "name": "桃花",
       "type": 1,
       "api": "https://thzy1.me/api.php/provide/vod/",
       "searchable": 1,
@@ -189,10 +142,10 @@
 
 
     {
-      "key": "香蕉资源",
-      "name": "香蕉资源",
+      "key": "香蕉",
+      "name": "香蕉",
       "type": 1,
-      "api": "https://www.xiangjiaozyw.com/api.php/provide/vod",
+      "api": "https://www.xiangjiaozyw.com/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1
     },
@@ -202,8 +155,8 @@
 
 
     {
-      "key": "性感天堂",
-      "name": "性感天堂",
+      "key": "性感",
+      "name": "性感",
       "type": 1,
       "api": "https://api.sexnguon.com/api.php/provide/vod/",
       "searchable": 1,
@@ -214,25 +167,15 @@
 
 
 
-        {
-            "key": "ikun",
-            "name": "ikun",
-            "type": 1,
-            "api": "https://ikunzyapi.com/api.php/provide/vod/?",
-            "playUrl": "json:http://127.0.0.1:10079/parse/?thread=0&proxy=noproxy&url=",
-            "playerType": 1,
-            "searchable": 1,
-            "changeable": 1
-        },
+
 
 
         {
             "key": "暴風",
             "name": "暴風",
             "type": 1,
-            "api": "https://bfzyapi.com/api.php/provide/vod?",
-            "playUrl": "json:http://127.0.0.1:10079/parse/?thread=0&proxy=noproxy&url=",
-            "searchable": 1,
+            "api": "https://bfzyapi.com/api.php/provide/vod/",
+                "searchable": 1,
             "changeable": 1
         },
 
@@ -242,9 +185,8 @@
             "key": "索尼",
             "name": "索尼 ",
             "type": 1,
-            "api": "https://suoniapi.com/api.php/provide/vod?",
-            "playUrl": "json:http://127.0.0.1:10079/parse/?thread=0&proxy=noproxy&url=",
-            "searchable": 1,
+            "api": "https://suoniapi.com/api.php/provide/vod/",
+                "searchable": 1,
             "changeable": 1
         }
 
