@@ -60,6 +60,17 @@
 
 
     {
+      "key": "麻豆_CMS",
+      "name": "麻豆-CMS",
+      "type": 1,
+      "api": "https://php.doube.eu.org/spider/php/麻豆.php",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
       "key": "麻豆",
       "name": "麻豆",
       "type": 1,
@@ -164,6 +175,298 @@
       "filterable": 1
     },
 
+
+
+
+    {
+      "key": "鸡坤_CMS",
+      "name": "鸡坤",
+      "type": 1,
+      "api": "https://jkunzyapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "TG资源_CMS",
+      "name": "TG资源",
+      "type": 1,
+      "api": "https://tgzyz.pp.ua/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "越南_CMS",
+      "name": "越南",
+      "type": 1,
+      "api": "https://vnzyz.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "奥斯卡_CMS",
+      "name": "奥斯卡",
+      "type": 1,
+      "api": "https://aosikazy4.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "X细胞_CMS",
+      "name": "X细胞",
+      "type": 1,
+      "api": "https://www.xxibaozyw.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "大奶子_CMS",
+      "name": "大奶子",
+      "type": 1,
+      "api": "https://apidanaizi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "精品X_CMS",
+      "name": "精品X",
+      "type": 1,
+      "api": "https://www.jingpinx.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "老色p_CMS",
+      "name": "老色P",
+      "type": 1,
+      "api": "https://apilsbzy1.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "番号_CMS",
+      "name": "番号",
+      "type": 1,
+      "api": "http://fhapi9.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "百花_CMS",
+      "name": "百花",
+      "type": 1,
+      "api": "https://bhziyuan.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "辣椒_CMS",
+      "name": "辣椒",
+      "type": 1,
+      "api": "http://lajiaozy.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "155_CMS",
+      "name": "155",
+      "type": 1,
+      "api": "https://155api.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+    {
+      "key": "杏吧_CMS",
+      "name": "杏吧",
+      "type": 1,
+      "api": "https://xingba111.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "玉兔_CMS",
+      "name": "玉兔",
+      "type": 1,
+      "api": "https://apiyutu.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "AIvin_CMS",
+      "name": "AIvin",
+      "type": 1,
+      "api": "http://lbapiby.com/api.php/provide/vod/at/json",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "乐播_CMS",
+      "name": "乐播",
+      "type": 1,
+      "api": "https://lbapi9.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+    {
+      "key": "奶香_CMS",
+      "name": "奶香",
+      "type": 1,
+      "api": "https://naixxzy.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+    {
+      "key": "森林_CMS",
+      "name": "森林",
+      "type": 1,
+      "api": "http://slapibf.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "番茄_CMS",
+      "name": "番茄",
+      "type": 1,
+      "api": "https://fqzy.me//api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "鲨鱼_CMS",
+      "name": "鲨鱼",
+      "type": 1,
+      "api": "https://shayuapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "91麻豆_CMS",
+      "name": "91麻豆",
+      "type": 1,
+      "api": "http://91md.me/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "CK百货_CMS",
+      "name": "CK百货",
+      "type": 1,
+      "api": "https://ckbh1.xyz/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+ 
+
+
+    {
+      "key": "豆豆_CMS",
+      "name": "豆豆",
+      "type": 1,
+      "api": "https://doudouzy.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "色猫_CMS",
+      "name": "色猫",
+      "type": 1,
+      "api": "http://caiji.semaozy.net/inc/apijson_vod.php",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "黑料X_CMS",
+      "name": "黑料X",
+      "type": 1,
+      "api": "https://www.heiliaozyapi.com/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "百万_CMS",
+      "name": "百万",
+      "type": 1,
+      "api": "https://api.bwzyz.com/api.php/provide/vod/at/json",
+      "searchable": 1,
+      "quickSearch": 1
+    },
 
 
 
