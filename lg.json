@@ -520,20 +520,19 @@
       "playerType": 2,
       "logo": "https://11.112114.xyz/logo/{name}.png"
     },
+
+
     {
-      "name": "牛播一",
+      "name": "hsck",
       "type": 0,
-      "url": "https://ghfast.top/https://github.com/Supprise0901/TVBox_live/blob/main/live.txt",
-      "playerType": 2,
-      "epg": "http://epg.51zmt.top:8000/api/diyp/?ch={name}&date={date}",
-      "logo": "https://11.112114.xyz/logo/{name}.png"
-    },
-    {
-      "name": "平台直播",
-      "type": 0,
-      "url": "http://tv.iill.top/m3u/Live",
+      "url": "https://gh-proxy.com/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/ck.txt",
       "ua": "okhttp/3.15",
-      "playerType": 2
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "http://www.fish2018.ip-ddns.com/imgs"
     }
+
+
+   
+
   ]
 }
