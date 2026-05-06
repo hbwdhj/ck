@@ -141,8 +141,8 @@
 
 
     {
-      "key": "麻豆",
-      "name": "麻豆",
+      "key": "麻豆io",
+      "name": "麻豆io",
       "type": 1,
       "api": "https://gt.uczyw.com/https://madou.io/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
@@ -150,6 +150,16 @@
       "filterable": 1
     },
 
+
+
+    {
+      "key": "麻豆19",
+      "name": "麻豆19",
+      "type": 1,
+      "api": "https://19q.cc/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
+    },
 
 
 
@@ -172,6 +182,11 @@
       "searchable": 1,
       "quickSearch": 1
     },
+
+
+
+
+
 
 
 
