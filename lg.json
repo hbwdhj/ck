@@ -3,6 +3,26 @@
   "wallpaper": "https://深色壁纸.xxooo.cf/",
   "sites": [
 
+
+
+{
+            "key": "采全",
+            "name": "采集",
+            "type": 4,
+            "api": "http://zhangqun1818.serv00.net/cj/cjjh.php",
+            "style": {
+                "type": "rect",
+                "ratio": 0.8
+            },
+            "ext": "0",
+            "changeable": 1
+        },
+
+
+
+
+
+
         {
             "key": "非凡",
             "name": "非凡",
@@ -130,6 +150,16 @@
       "searchable": 1,
       "quickSearch": 1
     },
+
+    {
+      "key": "糖心次元",
+      "name": "糖心-php",
+      "type": 1,
+      "api": "https://caicai.us.kg/糖心次元.php"
+    },
+
+
+
 
 
 
