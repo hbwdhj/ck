@@ -5,7 +5,7 @@
 
 
  {
-      "key": "豆瓣资源",
+      "key": "豆瓣",
       "name": "豆瓣",
       "type": 1,
       "api": "https://caiji.dbzy5.com/api.php/provide/vod",
@@ -47,6 +47,85 @@
         "体育赛事"
       ]
      },
+
+
+
+
+
+
+
+    {
+      "key": "乌云",
+      "name": "乌云_php",
+      "type": 4,
+      "api": "https://api.uumnet.com/tvbox/php/wooyun.php",
+      "playUrl": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
+
+        {
+            "key": "php_官方",
+            "name": "官方_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/官方资源.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+
+        {
+            "key": "php_斗鱼",
+            "name": "斗鱼_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/斗鱼直播.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+
+        {
+            "key": "php_欧乐",
+            "name": "欧乐_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/欧乐影院.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+
+        {
+            "key": "php_天堂",
+            "name": "天堂_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/电影天堂.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+
+        {
+            "key": "php_虎牙",
+            "name": "虎牙_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/虎牙直播.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+
+        {
+            "key": "php_非凡",
+            "name": "非凡_php",
+            "type": 4,
+            "api": "https://php.doube.eu.org/spider/php/非凡资源.php",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
 
 
 
@@ -108,72 +187,11 @@
 
 
 
-        {
-            "key": "php_官方资源",
-            "name": "官方资源(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/官方资源.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_斗鱼直播",
-            "name": "斗鱼直播(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/斗鱼直播.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_欧乐影院",
-            "name": "欧乐影院(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/欧乐影院.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_电影天堂",
-            "name": "电影天堂(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/电影天堂.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_虎牙直播",
-            "name": "虎牙直播(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/虎牙直播.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_非凡资源",
-            "name": "非凡资源(PHP)",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/非凡资源.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-
 
 
     {
-      "key": "麻豆_CMS",
-      "name": "麻豆-CMS",
+      "key": "麻豆_php",
+      "name": "麻豆_php",
       "type": 1,
       "api": "https://php.doube.eu.org/spider/php/麻豆.php",
       "searchable": 1,
@@ -219,6 +237,7 @@
       "quickSearch": 1,
       "filterable": 1
     },
+
 
 
     {
@@ -311,7 +330,7 @@
 
 
     {
-      "key": "鸡坤_CMS",
+      "key": "鸡坤_cms",
       "name": "鸡坤",
       "type": 1,
       "api": "https://jkunzyapi.com/api.php/provide/vod",
@@ -323,7 +342,7 @@
 
 
     {
-      "key": "TG资源_CMS",
+      "key": "TG资源_cms",
       "name": "TG资源",
       "type": 1,
       "api": "https://tgzyz.pp.ua/api.php/provide/vod",
@@ -335,7 +354,7 @@
 
 
     {
-      "key": "越南_CMS",
+      "key": "越南_cms",
       "name": "越南",
       "type": 1,
       "api": "https://vnzyz.com/api.php/provide/vod",
@@ -347,7 +366,7 @@
 
 
     {
-      "key": "奥斯卡_CMS",
+      "key": "奥斯卡_cms",
       "name": "奥斯卡",
       "type": 1,
       "api": "https://aosikazy4.com/api.php/provide/vod",
@@ -358,7 +377,7 @@
 
 
     {
-      "key": "X细胞_CMS",
+      "key": "X细胞_cms",
       "name": "X细胞",
       "type": 1,
       "api": "https://www.xxibaozyw.com/api.php/provide/vod",
@@ -369,7 +388,7 @@
 
 
     {
-      "key": "大奶子_CMS",
+      "key": "大奶子_cms",
       "name": "大奶子",
       "type": 1,
       "api": "https://apidanaizi.com/api.php/provide/vod",
@@ -380,7 +399,7 @@
 
 
     {
-      "key": "精品X_CMS",
+      "key": "精品X_cms",
       "name": "精品X",
       "type": 1,
       "api": "https://www.jingpinx.com/api.php/provide/vod",
@@ -391,7 +410,7 @@
 
 
     {
-      "key": "老色p_CMS",
+      "key": "老色p_cms",
       "name": "老色P",
       "type": 1,
       "api": "https://apilsbzy1.com/api.php/provide/vod",
@@ -402,7 +421,7 @@
 
 
     {
-      "key": "番号_CMS",
+      "key": "番号_cms",
       "name": "番号",
       "type": 1,
       "api": "http://fhapi9.com/api.php/provide/vod",
@@ -414,7 +433,7 @@
 
 
     {
-      "key": "百花_CMS",
+      "key": "百花_cms",
       "name": "百花",
       "type": 1,
       "api": "https://bhziyuan.com/api.php/provide/vod/?ac=list",
@@ -426,7 +445,7 @@
 
 
     {
-      "key": "辣椒_CMS",
+      "key": "辣椒_cms",
       "name": "辣椒",
       "type": 1,
       "api": "http://lajiaozy.com/api.php/provide/vod",
@@ -437,7 +456,7 @@
 
 
     {
-      "key": "155_CMS",
+      "key": "155_cms",
       "name": "155",
       "type": 1,
       "api": "https://155api.com/api.php/provide/vod",
@@ -449,7 +468,7 @@
 
 
     {
-      "key": "杏吧_CMS",
+      "key": "杏吧_cms",
       "name": "杏吧",
       "type": 1,
       "api": "https://xingba111.com/api.php/provide/vod/?ac=list",
@@ -460,7 +479,7 @@
 
 
     {
-      "key": "玉兔_CMS",
+      "key": "玉兔_cms",
       "name": "玉兔",
       "type": 1,
       "api": "https://apiyutu.com/api.php/provide/vod",
@@ -471,7 +490,7 @@
 
 
     {
-      "key": "AIvin_CMS",
+      "key": "AIvin_cms",
       "name": "AIvin",
       "type": 1,
       "api": "http://lbapiby.com/api.php/provide/vod/at/json",
@@ -482,7 +501,7 @@
 
 
     {
-      "key": "乐播_CMS",
+      "key": "乐播_cms",
       "name": "乐播",
       "type": 1,
       "api": "https://lbapi9.com/api.php/provide/vod",
@@ -492,7 +511,7 @@
 
 
     {
-      "key": "奶香_CMS",
+      "key": "奶香_cms",
       "name": "奶香",
       "type": 1,
       "api": "https://naixxzy.com/api.php/provide/vod",
@@ -502,7 +521,7 @@
 
 
     {
-      "key": "森林_CMS",
+      "key": "森林_cms",
       "name": "森林",
       "type": 1,
       "api": "http://slapibf.com/api.php/provide/vod",
@@ -513,7 +532,7 @@
 
 
     {
-      "key": "番茄_CMS",
+      "key": "番茄_cms",
       "name": "番茄",
       "type": 1,
       "api": "https://fqzy.me//api.php/provide/vod/?ac=list",
@@ -524,7 +543,7 @@
 
 
     {
-      "key": "鲨鱼_CMS",
+      "key": "鲨鱼_cms",
       "name": "鲨鱼",
       "type": 1,
       "api": "https://shayuapi.com/api.php/provide/vod",
@@ -535,7 +554,7 @@
 
 
     {
-      "key": "91麻豆_CMS",
+      "key": "91麻豆_cms",
       "name": "91麻豆",
       "type": 1,
       "api": "http://91md.me/api.php/provide/vod",
@@ -546,7 +565,7 @@
 
 
     {
-      "key": "CK百货_CMS",
+      "key": "CK百货_cms",
       "name": "CK百货",
       "type": 1,
       "api": "https://ckbh1.xyz/api.php/provide/vod/?ac=list",
@@ -559,7 +578,7 @@
 
 
     {
-      "key": "豆豆_CMS",
+      "key": "豆豆_cms",
       "name": "豆豆",
       "type": 1,
       "api": "https://doudouzy.com/api.php/provide/vod/?ac=list",
@@ -570,7 +589,7 @@
 
 
     {
-      "key": "色猫_CMS",
+      "key": "色猫_cms",
       "name": "色猫",
       "type": 1,
       "api": "http://caiji.semaozy.net/inc/apijson_vod.php",
@@ -581,7 +600,7 @@
 
 
     {
-      "key": "黑料X_CMS",
+      "key": "黑料X_cms",
       "name": "黑料X",
       "type": 1,
       "api": "https://www.heiliaozyapi.com/api.php/provide/vod/?ac=list",
@@ -592,7 +611,7 @@
 
 
     {
-      "key": "百万_CMS",
+      "key": "百万_cms",
       "name": "百万",
       "type": 1,
       "api": "https://api.bwzyz.com/api.php/provide/vod/at/json",
@@ -673,13 +692,6 @@
 
 
 
-    {
-      "name": "V6-范明明",
-      "type": 0,
-      "url": "https://scrm-community.oss-cn-shenzhen.aliyuncs.com/miniso-vendor/20250425-868403-298462cec53c48439a5765ceaca3c67f.m3u",
-      "playerType": 2,
-      "logo": "https://11.112114.xyz/logo/{name}.png"
-    },
 
 
     {
