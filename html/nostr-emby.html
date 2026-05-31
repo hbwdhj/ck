@@ -645,6 +645,136 @@
       backdrop-filter: blur(8px);
     }
 
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-title-row .card-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .rating-badge-inline {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: rgba(255, 193, 7, .18);
+      border: 1px solid rgba(255, 193, 7, .36);
+      color: rgba(255, 220, 80, .95);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── 长按菜单 ── */
+    .lp-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+    }
+
+    .card-long-press-menu {
+      position: fixed;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+      background: rgba(28, 36, 44, .92);
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.3);
+      min-width: 148px;
+      transform-origin: top center;
+      animation: lp-in .15s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes lp-in {
+      from { opacity: 0; transform: scale(.88) translateY(-6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .card-long-press-menu .lp-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      white-space: nowrap;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .12s;
+    }
+
+    .card-long-press-menu .lp-btn:active {
+      background: rgba(255,255,255,.1);
+    }
+
+    .card-long-press-menu .lp-btn svg {
+      flex-shrink: 0;
+      opacity: .88;
+    }
+
+    .card-long-press-menu .lp-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 2px 6px;
+    }
+
+    /* ── 详情徽标：绝对定位在 detail-spacer 右下角，随页面滚动 ── */
+    .detail-logo-wrap {
+      display: none;           /* JS sets to "flex" when logo available */
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      pointer-events: none;
+      align-items: flex-end;
+      justify-content: flex-end;
+      max-width: 46vw;
+    }
+
+    .detail-logo-img {
+      max-height: 76px;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: right bottom;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,.72)) drop-shadow(0 1px 4px rgba(0,0,0,.5));
+      opacity: 0;
+      transition: opacity .35s ease .1s;
+    }
+
+    .detail-logo-img.loaded {
+      opacity: 1;
+    }
+
+    @media (min-width: 600px) {
+      .detail-logo-wrap { right: 28px; bottom: 22px; max-width: 38vw; }
+      .detail-logo-img  { max-height: 96px; }
+    }
+
     .card-meta {
       margin-top: 6px;
       color: var(--muted);
@@ -1152,10 +1282,10 @@
       margin-left: auto;
       margin: 0;
       border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: var(--control);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
-      backdrop-filter: blur(12px) saturate(1.05);
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
       overflow: visible;
     }
 
@@ -1669,27 +1799,10 @@
 }
 
 html,body{
-  background: #1a1a1a !important;
-  animation: flow-light 6s linear infinite;
+  background: #0d1117 !important;
 }
 
-@keyframes flow-light {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-  background-size:40px 40px;
-  mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),transparent);
-}
+/* Apple-style background orbs handle the glow — body pseudo-elements removed */
 
 .app{
   padding:28px 28px 120px !important;
@@ -1938,20 +2051,32 @@ body::before{
     flex: 1 0 42vh;
     min-height: 42vh;
     pointer-events: none;
+    position: relative;
 }
 </style>
 <script>
 window.TMDB_API_KEY = "d7040155454e7fdf547c4d889ebbcca7";
 </script>
 <style id="ios26-liquid-glass-fix">
+/* ── iOS 26 Liquid Glass — 核心变量 ── */
+:root {
+  --lg-base: rgba(255,255,255,.08);
+  --lg-border: rgba(255,255,255,.14);
+  --lg-border-inner: rgba(255,255,255,.22);
+  --lg-blur: blur(28px) saturate(180%) brightness(1.06);
+  --lg-blur-heavy: blur(40px) saturate(200%) brightness(1.08);
+  --lg-shadow: 0 4px 24px rgba(0,0,0,.22), 0 1px 0 rgba(255,255,255,.12) inset;
+  --lg-shadow-raised: 0 8px 32px rgba(0,0,0,.30), 0 1.5px 0 rgba(255,255,255,.18) inset;
+  --lg-radius-btn: 20px;
+  --lg-radius-chip: 999px;
+  --lg-transition: all .18s cubic-bezier(.25,.8,.25,1);
+}
+
 html,body{
   background:transparent !important;
 }
 
-body::before,
-body::after{
-  display:none !important;
-}
+/* body::before/after 用于 Apple 风格流光背景，不隐藏 */
 
 .app,
 .section,
@@ -1968,62 +2093,145 @@ body::after{
   box-shadow:none !important;
 }
 
+.app{
+  position:relative;
+  z-index:1;
+}
+
+/* ── Liquid Glass 按钮基础层 ── */
 .btn,
 .icon-btn,
 .mini-icon-btn,
 .chip,
 .connection-toggle,
-.back-top{
-  position:relative;
-  overflow:visible !important;
-  border-radius:16px !important;
-  background:rgba(255,255,255,.04) !important;
-  border:1px solid rgba(255,255,255,.08) !important;
-  backdrop-filter:blur(10px) saturate(120%) !important;
-  -webkit-backdrop-filter:blur(10px) saturate(120%) !important;
-  box-shadow:none !important;
-  transition:transform .15s ease, background .15s ease !important;
+.back-top {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--lg-radius-btn) !important;
+  background: var(--lg-base) !important;
+  border: 1px solid var(--lg-border) !important;
+  backdrop-filter: var(--lg-blur) !important;
+  -webkit-backdrop-filter: var(--lg-blur) !important;
+  box-shadow: var(--lg-shadow) !important;
+  transition: var(--lg-transition) !important;
+  isolation: isolate;
 }
 
+.chip { border-radius: var(--lg-radius-chip) !important; }
+
+/* 内高光条 — 顶部玻璃折射感 */
 .btn::before,
 .icon-btn::before,
 .mini-icon-btn::before,
 .chip::before,
 .connection-toggle::before,
-.back-top::before{
-  display:none !important;
+.back-top::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(
+    160deg,
+    rgba(255,255,255,.18) 0%,
+    rgba(255,255,255,.06) 38%,
+    transparent 60%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
+/* 确保内容在高光层之上 */
+.btn > *,
+.icon-btn > *,
+.mini-icon-btn > *,
+.chip > *,
+.connection-toggle > *,
+.back-top > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover — 玻璃微微提亮 */
 .btn:hover,
 .icon-btn:hover,
 .mini-icon-btn:hover,
 .chip:hover,
 .connection-toggle:hover,
-.back-top:hover{
-  background:rgba(255,255,255,.08) !important;
+.back-top:hover {
+  background: rgba(255,255,255,.13) !important;
+  border-color: rgba(255,255,255,.22) !important;
+  box-shadow: var(--lg-shadow-raised) !important;
+  transform: translateY(-1px) !important;
 }
 
+/* Focus / Active — 下压弹动 */
 .btn:focus,
 .icon-btn:focus,
 .mini-icon-btn:focus,
 .chip:focus,
 .connection-toggle:focus,
-.back-top:focus,
+.back-top:focus {
+  background: rgba(255,255,255,.16) !important;
+  border-color: rgba(140,200,255,.55) !important;
+  box-shadow: 0 0 0 2px rgba(100,180,255,.30), var(--lg-shadow-raised) !important;
+  transform: translateY(-1px) !important;
+  outline: none !important;
+}
+
 .btn:active,
 .icon-btn:active,
 .mini-icon-btn:active,
 .chip:active,
 .connection-toggle:active,
-.back-top:active{
-  transform:scale(1.03) !important;
-  z-index:999 !important;
-  box-shadow:none !important;
+.back-top:active {
+  background: rgba(255,255,255,.06) !important;
+  box-shadow: var(--lg-shadow) !important;
+  transform: translateY(1px) scale(.98) !important;
+  transition: all .08s ease !important;
 }
 
+/* 主要/选中态 — 淡玻璃白，不再深蓝色 */
 .btn.primary,
-.chip.active{
-  background:rgba(120,170,255,.14) !important;
-  border-color:rgba(120,170,255,.18) !important;
+.btn.blue {
+  background: rgba(80,160,255,.16) !important;
+  border-color: rgba(120,190,255,.32) !important;
+  box-shadow: 0 4px 20px rgba(80,140,255,.20), 0 1px 0 rgba(255,255,255,.18) inset !important;
+}
+
+.btn.primary:hover,
+.btn.blue:hover {
+  background: rgba(80,160,255,.24) !important;
+  border-color: rgba(140,200,255,.42) !important;
+}
+
+/* chip 选中态 — 与状态按钮同款毛玻璃，只加亮边框区分 */
+.chip.active {
+  background: rgba(255,255,255,.14) !important;
+  border-color: rgba(255,255,255,.38) !important;
+  box-shadow: 0 4px 18px rgba(0,0,0,.22), 0 1.5px 0 rgba(255,255,255,.22) inset !important;
+  color: #fff !important;
+}
+
+.chip.active:hover {
+  background: rgba(255,255,255,.20) !important;
+  border-color: rgba(255,255,255,.50) !important;
+}
+
+/* danger 按钮 */
+.btn.danger {
+  background: rgba(255,80,80,.12) !important;
+  border-color: rgba(255,160,160,.24) !important;
+}
+
+/* 电视遥控器焦点环 — 更粗更亮 */
+@media (hover:none),(pointer:coarse) {
+  .focusable:focus,
+  button:focus {
+    box-shadow: 0 0 0 2.5px rgba(120,200,255,.70) !important;
+    border-color: rgba(160,220,255,.80) !important;
+    transform: translateY(-1px) !important;
+  }
 }
 </style>
 </head>
@@ -2113,7 +2321,11 @@ body::after{
       <svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
       返回
     </button>
-    <div class="detail-spacer"></div>
+    <div class="detail-spacer">
+      <div class="detail-logo-wrap" id="detailLogoWrap" style="display:none">
+        <img id="detailLogoImg" class="detail-logo-img" alt="">
+      </div>
+    </div>
     <div class="detail-cover">
       <img id="detailImage" alt="">
     </div>
@@ -2208,96 +2420,84 @@ body::after{
         apiBase: "https://api.tmdb.org/3",
         language: "zh-CN",
         imageBase: "https://image.tmdb.org/t/p/w342",
-        backdropBase: "https://image.tmdb.org/t/p/w780",
+        backdropBase: "https://image.tmdb.org/t/p/w1920",
         lists: [
           {
             id: "all",
             title: "推荐",
-            hint: "国内外最新上线",
+            hint: "本周全球热播",
             mediaType: "all",
             sources: [
-              { endpoint: "trending/all/week", params: { language: "zh-CN" } },
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "CN", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } },
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "ko", with_origin_country: "KR", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } }
+              { endpoint: "trending/all/week", mediaType: "all", params: { language: "zh-CN" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "CN", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "air_date_gte": "today-60", "air_date_lte": "today+30" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "ko", with_origin_country: "KR", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "air_date_gte": "today-60", "air_date_lte": "today+30" } }
             ]
           },
           {
             id: "cn-tv",
             title: "国产剧",
-            hint: "大陆港澳台最新剧集",
+            hint: "内地·港·台最新剧集",
             mediaType: "tv",
             sources: [
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "CN", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } },
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "HK", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } },
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "TW", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } }
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "CN", without_genres: "10764,10766,10767", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "HK", without_genres: "10764,10766,10767", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "zh", with_origin_country: "TW", without_genres: "10764,10766,10767", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+60" } }
             ]
           },
           {
             id: "movie",
             title: "电影",
-            hint: "全球最新上映电影",
+            hint: "最新上映·即将上映",
             mediaType: "movie",
             sources: [
-              { endpoint: "movie/now_playing", mediaType: "movie", params: { language: "zh-CN", page: "1" } },
-              { endpoint: "discover/movie", mediaType: "movie", params: { with_original_language: "zh", sort_by: "primary_release_date.desc", page: "1" } }
+              { endpoint: "movie/now_playing", mediaType: "movie", params: { language: "zh-CN" } },
+              { endpoint: "movie/upcoming", mediaType: "movie", params: { language: "zh-CN" } },
+              { endpoint: "discover/movie", mediaType: "movie", params: { with_original_language: "zh", sort_by: "primary_release_date.desc", "primary_release_date_gte": "today-120", "primary_release_date_lte": "today+60" } }
             ]
           },
           {
-            id: "kr-tv",
-            title: "韩剧",
-            hint: "韩国最新剧集",
+            id: "jp-kr-tv",
+            title: "日韩剧",
+            hint: "韩国·日本最新剧集",
             mediaType: "tv",
-            endpoint: "discover/tv",
-            params: {
-              with_original_language: "ko",
-              with_origin_country: "KR",
-              sort_by: "first_air_date.desc",
-              include_null_first_air_dates: "false",
-              page: "1"
-            }
+            sources: [
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "ko", with_origin_country: "KR", without_genres: "16", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+30" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "ja", with_origin_country: "JP", without_genres: "16", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+30" } }
+            ]
           },
           {
             id: "us-tv",
             title: "美剧",
-            hint: "美国最新剧集",
+            hint: "Netflix·HBO·Apple TV+ 最新上线",
             mediaType: "tv",
-            endpoint: "discover/tv",
-            params: {
-              with_original_language: "en",
-              with_origin_country: "US",
-              without_genres: "16",
-              sort_by: "first_air_date.desc",
-              include_null_first_air_dates: "false",
-              page: "1"
-            }
+            sources: [
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "en", with_origin_country: "US", without_genres: "16", with_watch_providers: "8|337|350|384|9", watch_region: "US", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-90", "first_air_date_lte": "today+14" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_original_language: "en", with_origin_country: "US", without_genres: "16", sort_by: "popularity.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-60", "first_air_date_lte": "today+14" } }
+            ]
           },
           {
-            id: "jp-tv",
-            title: "日剧",
-            hint: "日本最新真人剧集",
+            id: "variety-cn",
+            title: "国内综艺",
+            hint: "内地·港台综艺节目",
             mediaType: "tv",
-            endpoint: "discover/tv",
-            params: {
-              with_original_language: "ja",
-              with_origin_country: "JP",
-              without_genres: "16",
-              sort_by: "first_air_date.desc",
-              include_null_first_air_dates: "false",
-              page: "1"
-            }
+            sources: [
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10764", with_original_language: "zh", with_origin_country: "CN", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10767", with_original_language: "zh", with_origin_country: "CN", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10764,10767", with_original_language: "zh", with_origin_country: "HK", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10764,10767", with_original_language: "zh", with_origin_country: "TW", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } }
+            ]
           },
           {
-            id: "variety",
-            title: "综艺",
-            hint: "最新真人秀 / 综艺节目",
+            id: "variety-global",
+            title: "国外综艺",
+            hint: "海外综艺·真人秀",
             mediaType: "tv",
-            endpoint: "discover/tv",
-            params: {
-              with_genres: "10764,10767",
-              sort_by: "first_air_date.desc",
-              include_null_first_air_dates: "false",
-              page: "1"
-            }
+            sources: [
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10764", with_origin_country: "US", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10764", with_origin_country: "KR", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10767", with_origin_country: "US", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "10767", with_origin_country: "KR", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-180", "first_air_date_lte": "today+60" } }
+            ]
           },
           {
             id: "anime",
@@ -2305,9 +2505,9 @@ body::after{
             hint: "国内外最新动画",
             mediaType: "tv",
             sources: [
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "16", with_original_language: "ja", with_origin_country: "JP", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } },
-              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "16", with_original_language: "zh", sort_by: "first_air_date.desc", include_null_first_air_dates: "false" } },
-              { endpoint: "discover/movie", mediaType: "movie", params: { with_genres: "16", sort_by: "primary_release_date.desc" } }
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "16", with_original_language: "ja", with_origin_country: "JP", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+30" } },
+              { endpoint: "discover/tv", mediaType: "tv", params: { with_genres: "16", with_original_language: "zh", sort_by: "first_air_date.desc", include_null_first_air_dates: "false", "first_air_date_gte": "today-120", "first_air_date_lte": "today+30" } },
+              { endpoint: "discover/movie", mediaType: "movie", params: { with_genres: "16", sort_by: "primary_release_date.desc", "primary_release_date_gte": "today-120", "primary_release_date_lte": "today+30" } }
             ]
           }
         ]
@@ -2359,8 +2559,8 @@ body::after{
     const PAN_CHECKABLE_DISK_TYPES = new Set(window.WEBHOME_CONFIG.pan.checkableDiskTypes || ["quark", "aliyun", "baidu", "uc", "tianyi", "xunlei", "123", "115", "mobile"]);
     const PAN_HEALTH_PRIORITY = { ok: 0, locked: 1, pending: 2, idle: 3, unsupported: 4, uncertain: 5, bad: 6 };
     const PAGE_OPENED_AT = window.WEBHOME_PAGE_OPENED_AT || Date.now();
-    const GRID_INITIAL_ROWS = 3;
-    const GRID_APPEND_ROWS = 2;
+    const GRID_INITIAL_ROWS = 6;
+    const GRID_APPEND_ROWS = 4;
     const RECENT_UI_TTL_MS = 30000;
     const state = {
       site: null,
@@ -3521,14 +3721,23 @@ body::after{
       if (!dock || !body) return;
       body.style.setProperty("--connection-shift", "0px");
       if (!dock.classList.contains("open")) return;
-      requestAnimationFrame(() => {
-        const rect = body.getBoundingClientRect();
+      const doFit = () => {
+        const dockRect = dock.getBoundingClientRect();
+        const viewW = window.innerWidth || document.documentElement.clientWidth || 0;
         const pad = 8;
+        const bodyW = Math.min(viewW - pad * 2, 420);
+        body.style.setProperty("--connection-shift", "0px");
+        const rect = body.getBoundingClientRect();
         let shift = 0;
         if (rect.left < pad) shift = pad - rect.left;
-        if (rect.right + shift > window.innerWidth - pad) shift = window.innerWidth - pad - rect.right;
+        else if (rect.right > viewW - pad) shift = viewW - pad - rect.right;
+        // clamp so panel never goes off left edge
+        const maxShift = dockRect.right - pad - bodyW;
+        const minShift = pad - dockRect.right + bodyW;
+        shift = Math.max(minShift, Math.min(maxShift, shift));
         body.style.setProperty("--connection-shift", `${Math.round(shift)}px`);
-      });
+      };
+      requestAnimationFrame(doFit);
     }
 
     function setConnectionPanelOpen(open) {
@@ -3621,8 +3830,17 @@ body::after{
       url.searchParams.set("api_key", window.WEBHOME_CONFIG.tmdb.apiKey);
       url.searchParams.set("language", window.WEBHOME_CONFIG.tmdb.language);
       Object.entries(list.params || {}).forEach(([key, value]) => {
-        const param = key.replace(/_lte$/, ".lte");
-        url.searchParams.set(param, value === "today" ? today() : value);
+        const param = key.replace(/_lte$/, ".lte").replace(/_gte$/, ".gte");
+        let val = value;
+        if (typeof val === "string") {
+          // 支持 "today" / "today+30" / "today-90" 动态日期
+          val = val.replace(/^today([+-]\d+)?$/, (_, offset) => {
+            const d = new Date();
+            if (offset) d.setDate(d.getDate() + parseInt(offset, 10));
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+          });
+        }
+        url.searchParams.set(param, val);
       });
       if (page) url.searchParams.set("page", String(page));
       return url.toString();
@@ -3941,13 +4159,13 @@ body::after{
           const fetches = list.sources.map((src) => {
             const srcList = Object.assign({}, list, { endpoint: src.endpoint, params: src.params, mediaType: src.mediaType || list.mediaType });
             return requestJson(tmdbUrl(srcList, 1), 18)
-              .then((body) => (body.results || []).map((item, i) => normalizeTmdb(item, srcList, i)).filter(hasPoster))
-              .catch(() => []);
+              .then((body) => ({ items: (body.results || []).map((item, i) => normalizeTmdb(item, srcList, i)).filter(hasPoster), total: body.total_pages || 1 }))
+              .catch(() => ({ items: [], total: 1 }));
           });
-          const arrays = await Promise.all(fetches);
+          const results = await Promise.all(fetches);
           // 交叉混排：依次从每个来源取一条，循环直到取完
           const mixed = [];
-          const iters = arrays.map((a) => a[Symbol.iterator]());
+          const iters = results.map((r) => r.items[Symbol.iterator]());
           let anyLeft = true;
           while (anyLeft) {
             anyLeft = false;
@@ -3957,7 +4175,9 @@ body::after{
             }
           }
           state.catalog[id] = uniqueMedia(mixed);
-          state.catalogPage[id] = { page: 1, total: 1, loading: false, loaded: true, done: true };
+          // 记录多源分页状态，以便继续加载第2页
+          const maxTotal = Math.max(...results.map((r) => r.total));
+          state.catalogPage[id] = { page: 1, total: maxTotal, loading: false, loaded: true, multiSrc: true };
           setStatus("tmdb", `${list.title} 已加载 ${state.catalog[id].length} 条`);
         } catch (e) {
           state.catalog[id] = [];
@@ -3991,6 +4211,31 @@ body::after{
       state.catalogPage[id] = page;
       try {
         const next = page.page + 1;
+        // 多源列表：并发请求所有来源的下一页，交叉混排追加
+        if (page.multiSrc && list.sources && list.sources.length) {
+          const fetches = list.sources.map((src) => {
+            const srcList = Object.assign({}, list, { endpoint: src.endpoint, params: src.params, mediaType: src.mediaType || list.mediaType });
+            return requestJson(tmdbUrl(srcList, next), 18)
+              .then((body) => ({ items: (body.results || []).map((item, i) => normalizeTmdb(item, srcList, (next - 1) * 20 + i)).filter(hasPoster), total: body.total_pages || page.total }))
+              .catch(() => ({ items: [], total: page.total }));
+          });
+          const results = await Promise.all(fetches);
+          const mixed = [];
+          const iters = results.map((r) => r.items[Symbol.iterator]());
+          let anyLeft = true;
+          while (anyLeft) {
+            anyLeft = false;
+            for (const iter of iters) {
+              const { value, done } = iter.next();
+              if (!done) { mixed.push(value); anyLeft = true; }
+            }
+          }
+          const maxTotal = Math.max(...results.map((r) => r.total));
+          state.catalog[id] = uniqueMedia((state.catalog[id] || []).concat(mixed));
+          state.catalogPage[id] = { page: next, total: maxTotal, loading: false, loaded: true, multiSrc: true };
+          renderActiveGrid();
+          return;
+        }
         const body = await requestJson(tmdbUrl(list, next), 18);
         const items = (body.results || []).map((item, index) => normalizeTmdb(item, list, (next - 1) * 20 + index)).filter(hasPoster);
         state.catalog[id] = uniqueMedia((state.catalog[id] || []).concat(items));
@@ -4134,6 +4379,12 @@ body::after{
       hideSearchSuggest();
       renderSearch();
       scheduleUiSnapshotSave();
+    }
+
+    function openSearchFirstResult() {
+      const items = ranked(state.searchItems);
+      if (!items.length) return;
+      openDetail(items[0]);
     }
 
     function renderAll(options) {
@@ -4661,7 +4912,7 @@ body::after{
       button.type = "button";
       if (key) button.dataset.mediaKey = key;
       const rating = item.voteAverage ? Number(item.voteAverage).toFixed(1) : "";
-      const poster = displayImage(landscape ? item.landscape || item.image || item.pic : item.pic, { size: landscape ? "w780" : "w342" });
+      const poster = displayImage(landscape ? item.landscape || item.image || item.pic : item.pic, { size: landscape ? "w1920" : "w342" });
       const imageOpt = { loading: index < initialGridBatchSize(null) ? "eager" : "lazy", fetchPriority: index < 8 ? "high" : "" };
       const progress = Math.min(100, Math.max(0, Number(item.progress || 0)));
       button.innerHTML = recent ? `
@@ -4674,10 +4925,12 @@ body::after{
         ${progress > 0 ? `<div class="recent-progress" aria-hidden="true"><span style="--recent-progress:${escapeAttr(progress + "%")}"></span></div>` : ""}
       ` : `
         <img class="poster" alt="" ${imageAttrs(poster, imageOpt)}>
-        ${rating ? `<span class="rating-badge">${escapeHtml(rating)}</span>` : ""}
         ${people > 0 ? `<span class="card-people">${escapeHtml(people)}人</span>` : ""}
         <div class="card-body">
-          <div class="card-title">${escapeHtml(item.title)}</div>
+          <div class="card-title-row">
+            <div class="card-title">${escapeHtml(item.title)}</div>
+            ${rating ? `<span class="rating-badge-inline">${escapeHtml(rating)}</span>` : ""}
+          </div>
           <div class="card-meta">${escapeHtml(item.remark)}</div>
         </div>
       `;
@@ -4685,7 +4938,129 @@ body::after{
         if (item.source === "history") openRecentItem(item);
         else openDetail(item);
       });
+      // Long press menu (搜索播放 + 盘搜)
+      if (item.source !== "history") {
+        let lpTimer = null;
+        let lpFired = false;
+        let lpStartX = 0, lpStartY = 0;
+
+        function lpStart(e) {
+          lpFired = false;
+          const t = e.touches ? e.touches[0] : e;
+          lpStartX = t.clientX; lpStartY = t.clientY;
+          lpTimer = setTimeout(() => {
+            lpFired = true;
+            showCardLongPressMenu(item, button);
+          }, 480);
+        }
+        function lpCancel() {
+          if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+        }
+        function lpMove(e) {
+          const t = e.touches ? e.touches[0] : e;
+          if (Math.abs(t.clientX - lpStartX) > 8 || Math.abs(t.clientY - lpStartY) > 8) lpCancel();
+        }
+        function lpEnd(e) {
+          lpCancel();
+          // If long-press fired, swallow this touchend so the click doesn't also fire
+          if (lpFired) { e.preventDefault(); e.stopPropagation(); lpFired = false; }
+        }
+        button.addEventListener("touchstart", lpStart, { passive: true });
+        button.addEventListener("touchmove", lpMove, { passive: true });
+        button.addEventListener("touchend", lpEnd, { passive: false });
+        button.addEventListener("touchcancel", lpCancel, { passive: true });
+        button.addEventListener("contextmenu", (e) => { e.preventDefault(); });
+      }
       return button;
+    }
+
+    // ── 长按菜单：全局唯一实例管理 ──
+    const LongPressMenu = (function() {
+      let backdrop = null;
+      let menu = null;
+
+      function destroy() {
+        if (backdrop) { backdrop.remove(); backdrop = null; }
+        if (menu) { menu.remove(); menu = null; }
+        document.body.style.removeProperty("overflow");
+      }
+
+      function makeBtn(svgPath, label, onClick) {
+        const btn = document.createElement("button");
+        btn.className = "lp-btn focusable";
+        btn.type = "button";
+        btn.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgPath}</svg>${escapeHtml(label)}`;
+        btn.addEventListener("pointerdown", (e) => { e.stopPropagation(); });
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          destroy();
+          onClick();
+        });
+        return btn;
+      }
+
+      return {
+        show: function(item, anchorEl) {
+          destroy();
+
+          // Full-screen backdrop to capture all outside taps
+          backdrop = document.createElement("div");
+          backdrop.className = "lp-backdrop";
+          backdrop.addEventListener("touchstart", (e) => { e.preventDefault(); destroy(); }, { passive: false });
+          backdrop.addEventListener("mousedown", (e) => { e.preventDefault(); destroy(); });
+          document.body.appendChild(backdrop);
+
+          menu = document.createElement("div");
+          menu.id = "cardLongPressMenu";
+          menu.className = "card-long-press-menu";
+          menu.setAttribute("role", "menu");
+
+          // 搜索播放 — same icon as detailSearchBtn
+          menu.appendChild(makeBtn(
+            '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+            "搜索播放",
+            () => {
+              rememberWatchIntent(item, "search");
+              startWatchTracking(item);
+              nativeSearch(item.title);
+            }
+          ));
+
+          menu.appendChild(Object.assign(document.createElement("div"), { className: "lp-divider" }));
+
+          // 盘搜 — same icon as panSearchBtn
+          menu.appendChild(makeBtn(
+            '<path d="M6.2 18.3h11.6a4.1 4.1 0 0 0 .42-8.18 6.2 6.2 0 0 0-11.9 1.68A3.28 3.28 0 0 0 6.2 18.3Z"/>',
+            "盘搜",
+            () => {
+              openDetail(item, { keepPan: false });
+              setTimeout(() => searchPanResources(item), 300);
+            }
+          ));
+
+          document.body.appendChild(menu);
+
+          // Position: prefer above card, fall back below
+          const rect = anchorEl.getBoundingClientRect();
+          requestAnimationFrame(() => {
+            const mw = menu.offsetWidth || 160;
+            const mh = menu.offsetHeight || 108;
+            let left = rect.left + rect.width / 2 - mw / 2;
+            let top = rect.top - mh - 10;
+            if (top < 8) top = rect.bottom + 10;
+            if (top + mh > window.innerHeight - 8) top = window.innerHeight - mh - 8;
+            if (left < 8) left = 8;
+            if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
+            menu.style.left = left + "px";
+            menu.style.top = top + "px";
+          });
+        },
+        destroy
+      };
+    })();
+
+    function showCardLongPressMenu(item, anchorEl) {
+      LongPressMenu.show(item, anchorEl);
     }
 
     async function openRecentItem(item) {
@@ -4901,6 +5276,8 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
         const searchEl = $("searchInput");
         if (searchEl && document.activeElement === searchEl) searchEl.blur();
         scheduleUiSnapshotSave();
+        // 直接打开第一个搜索结果的详情页
+        openSearchFirstResult();
       } catch (e) {
         setStatus("tmdb", "搜索失败：" + (e.message || "unknown"));
         toast("搜索失败");
@@ -4948,6 +5325,11 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
 
     function renderDetailBase(item) {
       resetDetailTextClamp();
+      // Reset logo
+      const logoWrap = $("detailLogoWrap");
+      const logoImg = $("detailLogoImg");
+      if (logoWrap) logoWrap.style.display = "none";
+      if (logoImg) { logoImg.src = ""; logoImg.classList.remove("loaded"); }
       $("detailTitle").textContent = item.title;
       const fallbackText = item.desc || item.remark || "";
       $("detailText").textContent = fallbackText || "";
@@ -5033,7 +5415,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       if (token !== state.detailCover.token || !$('detailSheet').classList.contains('active')) return;
       if (!images.length || attempts >= images.length - 1) return;
       const next = (current + step + images.length) % images.length;
-      const src = displayImage(images[next], { size: "w780" });
+      const src = displayImage(images[next], { size: "w1920" });
       if (!src) return tryPreloadDetailCover(next, step, attempts + 1, token, options);
       preloadImage(src, () => {
         if (token !== state.detailCover.token || !$('detailSheet').classList.contains('active')) return;
@@ -5066,7 +5448,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       const allowPoster = opts.allowPoster !== false;
       const usePoster = allowPoster && (!land || isSameImageSource(land, post));
       const src = usePoster ? post || land : land;
-      const bgSrc = src ? displayImage(src, { size: usePoster ? "w780" : "w780" }) : "";
+      const bgSrc = src ? displayImage(src, { size: usePoster ? "w1920" : "w1920" }) : "";
       cover.classList.toggle("loading", !src && opts.keepLoading !== false);
       cover.classList.toggle("poster-mode", !!usePoster && !!src);
       cover.dataset.coverMode = usePoster ? "poster" : "landscape";
@@ -5309,11 +5691,59 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       renderDetailTitleMeta(item, detail);
       scheduleDetailTextClamp();
       renderDetailCoverFromDetail(item, detail);
+      renderDetailLogo(detail);
       renderCast(detail.credits && detail.credits.cast || []);
       if (item.mediaType === "tv") renderSeasons(item, detail);
       loadRecommendations(item);
       normalizeRails();
       updatePostPanFocusState();
+    }
+
+    function bestDetailLogo(detail) {
+      const logos = detail && detail.images && detail.images.logos || [];
+      if (!logos.length) return "";
+      // Prefer: zh first, then null (language-agnostic), then en; highest vote_average
+      const scored = logos
+        .filter((l) => l && l.file_path)
+        .map((l) => {
+          const lang = l.iso_639_1 || "";
+          const langScore = lang === "zh" ? 3 : lang === "" ? 2 : lang === "en" ? 1 : 0;
+          return { path: l.file_path, score: langScore * 1000 + Number(l.vote_average || 0) * 10 + (Number(l.width || 0) / 1000) };
+        })
+        .sort((a, b) => b.score - a.score);
+      return scored.length ? scored[0].path : "";
+    }
+
+    function renderDetailLogo(detail) {
+      const wrap = $("detailLogoWrap");
+      const img = $("detailLogoImg");
+      if (!wrap || !img) return;
+      const path = bestDetailLogo(detail);
+      if (!path) {
+        wrap.style.display = "none";
+        img.removeAttribute("src");
+        img.classList.remove("loaded");
+        return;
+      }
+      // Use w500 size (logos are typically transparent PNGs, w500 is fine)
+      // tmdbImageUrl handles the correct base URL with size in the path
+      const src = tmdbImageUrl(path, "w500");
+      if (!src) { wrap.style.display = "none"; return; }
+      // Use fm.res() to proxy through native http (bypass CORS, send cookies)
+      let finalSrc = src;
+      try {
+        if (typeof fm !== "undefined" && fm && typeof fm.res === "function") {
+          finalSrc = fm.res(src);
+        }
+      } catch (e) { /* ignore */ }
+      img.classList.remove("loaded");
+      wrap.style.display = "flex";
+      img.onload = () => img.classList.add("loaded");
+      img.onerror = () => {
+        wrap.style.display = "none";
+        img.classList.remove("loaded");
+      };
+      img.src = finalSrc;
     }
 
     function scheduleDetailTextClamp() {
@@ -5438,7 +5868,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
         const button = document.createElement("button");
         button.className = "person-card focusable";
         button.type = "button";
-        const profile = displayImage(imageUrl(person.profile_path, false), { size: "w185" });
+        const profile = displayImage(imageUrl(person.profile_path, false), { size: "w342" });
         button.innerHTML = `
           <img alt="" ${imageAttrs(profile)}>
           <div><b>${escapeHtml(person.name)}</b><span>${escapeHtml(person.character || person.known_for_department || "")}</span></div>
@@ -5492,7 +5922,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       }
       $("episodeRail").replaceChildren(...episodes.map((ep) => {
         const stillSource = ep.still_path ? imageUrl(ep.still_path, true) : "";
-        const still = stillSource ? displayImage(stillSource, { size: "w300" }) : "";
+        const still = stillSource ? displayImage(stillSource, { size: "w780" }) : "";
         const fullStill = stillSource ? displayImage(stillSource, { size: "w780" }) : "";
         const button = document.createElement("button");
         button.className = "episode-card focusable" + (still ? " has-still" : "");
@@ -6406,6 +6836,11 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       document.body.classList.remove("detail-active");
       document.body.classList.remove("episode-active");
       sheet.classList.remove("active");
+      // Hide logo immediately when sheet closes
+      const logoWrap = $("detailLogoWrap");
+      const logoImg = $("detailLogoImg");
+      if (logoWrap) logoWrap.style.display = "none";
+      if (logoImg) logoImg.classList.remove("loaded");
       sheet.classList.remove("detail-large");
       sheet.style.display = "";
       setTimeout(() => { if (!sheet.classList.contains("active")) sheet.style.setProperty("--detail-hero-bg", "none"); }, 700);
@@ -8511,9 +8946,16 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
     }
 
     window.addEventListener("popstate", () => {
+      // If pan results are focused and user pressed back, re-anchor to #detail instead of leaving
       if (location.hash !== "#detail" && $("detailSheet").classList.contains("active") && state.pan.focusMode === "results") {
         history.pushState({ sheet: "detail" }, "", "#detail");
         focusPanTabFromResults();
+        return;
+      }
+      // If detail sheet is still visible but hash left #detail (e.g. after using 盘搜 / clicking outside),
+      // treat this as a "close detail" action instead of falling through to app-level back.
+      if (location.hash !== "#detail" && $("detailSheet").classList.contains("active")) {
+        closeDetail(true);
         return;
       }
       if (location.hash !== "#image" && $("imageViewer").classList.contains("active")) closeImage(true);
@@ -8543,6 +8985,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
     window.addEventListener("scroll", () => {
       state.scrollingUntil = Date.now() + 900;
       updateBackTopButton();
+      LongPressMenu.destroy();
       scheduleUiSnapshotSave();
       if ("IntersectionObserver" in window) return;
       const doc = document.documentElement;
@@ -8591,6 +9034,38 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       lockViewportWidth();
       bindActions();
       installRemoteKeys();
+
+    // 涟漪效果已移除
+
+    // ── 手机端：滚动时 chip 栏自动居中选中项 ──
+    (function setupChipScroll() {
+      const chips = $("chips");
+      if (!chips) return;
+      chips.addEventListener("click", function(e) {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      });
+    })();
+
+    // ── 电视端：方向键焦点移动加速（长按加速） ──
+    (function setupKeyAccel() {
+      let pressTimer = null;
+      let pressCount = 0;
+      document.addEventListener("keydown", function(e) {
+        const key = normalizeRemoteKey(e);
+        if (!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(key)) { pressCount = 0; return; }
+        pressCount++;
+        if (pressCount > 8) {
+          // 长按时跳过一格，加速
+          const target2 = nearestFocusable(key);
+          if (target2) focusRemoteTarget(target2);
+        }
+      });
+      document.addEventListener("keyup", function(e) {
+        pressCount = 0;
+      });
+    })();
       await initPanConfig();
       renderConnection();
       hotLoadIndex().catch(() => {});
@@ -8617,13 +9092,13 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
   <div class="hero-orb-2"></div>
   <div class="hero-orb-3"></div>
   <div class="hero-orb-4"></div>
-  <div class="hero-streak-1"></div>
-  <div class="hero-streak-2"></div>
+  <div class="hero-orb-5"></div>
+  <div class="hero-orb-6"></div>
   <div class="hero-noise"></div>
 </div>
 <style>
 /* ═══════════════════════════════════════════════════════
-   iOS-style Dynamic Aurora Background — Breathe & Flow
+   Full-screen Random Aurora — orbs roam the entire viewport
    ═══════════════════════════════════════════════════════ */
 
 .hero-glow {
@@ -8632,209 +9107,188 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
   z-index: -3;
   pointer-events: none;
   overflow: hidden;
-  will-change: transform;
 }
 
-/* Base backdrop: deep dark glass layer */
-.hero-glow::before {
-  content: "";
+/* shared orb base */
+.hero-orb-1,.hero-orb-2,.hero-orb-3,
+.hero-orb-4,.hero-orb-5,.hero-orb-6 {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(30, 58, 110, .38) 0%, transparent 65%),
-    radial-gradient(ellipse 70% 55% at 80% 70%, rgba(60, 20, 90, .32) 0%, transparent 65%),
-    radial-gradient(ellipse 90% 70% at 50% 50%, rgba(8, 12, 22, .82) 0%, transparent 100%);
-  animation: none;
+  border-radius: 50%;
+  will-change: transform, opacity;
 }
 
-/* ── Orb 1: cool blue, top-left, slow drift ── */
+/* ── Orb 1: rose-pink — starts top-left, roams full screen ── */
 .hero-orb-1 {
-  position: absolute;
-  width: 72vw;
-  height: 72vw;
-  border-radius: 50%;
-  left: -18vw;
-  top: -22vw;
-  background: radial-gradient(circle at 40% 40%,
-    rgba(90, 160, 255, .55) 0%,
-    rgba(60, 100, 220, .30) 38%,
+  width: 80vw; height: 80vw;
+  left: 10vw; top: 5vh;
+  background: radial-gradient(circle at 45% 45%,
+    rgba(255, 80, 150, .32) 0%,
+    rgba(200, 40, 110, .14) 45%,
     transparent 70%);
-  filter: blur(80px);
-  animation: orbDrift1 11s ease-in-out infinite alternate,
-             orbBreathe1 4s ease-in-out infinite;
-  will-change: transform, opacity;
+  filter: blur(90px);
+  animation: orb1 23s ease-in-out infinite alternate,
+             pulse1 5s ease-in-out infinite;
+}
+@keyframes orb1 {
+  0%   { transform: translate(0,      0);      }
+  15%  { transform: translate(55vw,   22vh);   }
+  30%  { transform: translate(20vw,   65vh);   }
+  45%  { transform: translate(70vw,   55vh);   }
+  60%  { transform: translate(-5vw,   80vh);   }
+  75%  { transform: translate(45vw,   10vh);   }
+  90%  { transform: translate(10vw,   40vh);   }
+  100% { transform: translate(65vw,   75vh);   }
+}
+@keyframes pulse1 {
+  0%,100% { opacity:.82; filter:blur(90px);  }
+  50%     { opacity:.38; filter:blur(140px); }
 }
 
-/* ── Orb 2: violet/purple, bottom-right ── */
+/* ── Orb 2: violet — starts bottom-right, sweeps diagonally ── */
 .hero-orb-2 {
-  position: absolute;
-  width: 68vw;
-  height: 68vw;
-  border-radius: 50%;
-  right: -16vw;
-  bottom: -20vw;
-  background: radial-gradient(circle at 60% 55%,
-    rgba(155, 80, 255, .50) 0%,
-    rgba(100, 40, 200, .28) 42%,
+  width: 75vw; height: 75vw;
+  left: 30vw; top: 30vh;
+  background: radial-gradient(circle at 55% 55%,
+    rgba(120, 60, 255, .36) 0%,
+    rgba(80, 20, 200, .18) 45%,
     transparent 70%);
-  filter: blur(88px);
-  animation: orbDrift2 14s ease-in-out infinite alternate,
-             orbBreathe2 5s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* ── Orb 3: teal/cyan accent, center ── */
-.hero-orb-3 {
-  position: absolute;
-  width: 50vw;
-  height: 50vw;
-  border-radius: 50%;
-  left: 28vw;
-  top: 30vh;
-  background: radial-gradient(circle at 50% 45%,
-    rgba(30, 200, 200, .28) 0%,
-    rgba(20, 140, 180, .14) 48%,
-    transparent 72%);
-  filter: blur(96px);
-  animation: orbDrift3 18s ease-in-out infinite alternate,
-             orbBreathe3 6s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* ── Orb 4: warm rose, top-right accent ── */
-.hero-orb-4 {
-  position: absolute;
-  width: 44vw;
-  height: 44vw;
-  border-radius: 50%;
-  right: 4vw;
-  top: -8vh;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(220, 80, 160, .22) 0%,
-    rgba(180, 50, 120, .10) 52%,
-    transparent 72%);
   filter: blur(100px);
-  animation: orbDrift4 15s ease-in-out infinite alternate,
-             orbBreathe4 5.5s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: orb2 29s ease-in-out infinite alternate,
+             pulse2 6s ease-in-out infinite;
+  animation-delay: -8s, -2s;
+}
+@keyframes orb2 {
+  0%   { transform: translate(0,      0);      }
+  20%  { transform: translate(-35vw, -25vh);   }
+  35%  { transform: translate(40vw,  -40vh);   }
+  50%  { transform: translate(-20vw,  50vh);   }
+  65%  { transform: translate(55vw,   30vh);   }
+  80%  { transform: translate(-10vw, -10vh);   }
+  100% { transform: translate(30vw,   60vh);   }
+}
+@keyframes pulse2 {
+  0%,100% { opacity:.78; filter:blur(100px); }
+  50%     { opacity:.30; filter:blur(160px); }
 }
 
-/* ── Flowing light streaks ── */
-.hero-streak-1,
-.hero-streak-2 {
-  position: absolute;
-  pointer-events: none;
-  border-radius: 50%;
-  filter: blur(32px);
+/* ── Orb 3: teal/emerald — center, wide wandering ── */
+.hero-orb-3 {
+  width: 65vw; height: 65vw;
+  left: 20vw; top: 20vh;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(20, 210, 160, .24) 0%,
+    rgba(10, 160, 120, .12) 50%,
+    transparent 72%);
+  filter: blur(110px);
+  animation: orb3 35s ease-in-out infinite alternate,
+             pulse3 7s ease-in-out infinite;
+  animation-delay: -14s, -3s;
+}
+@keyframes orb3 {
+  0%   { transform: translate(0,      0);      }
+  12%  { transform: translate(50vw,  -30vh);   }
+  28%  { transform: translate(-30vw,  40vh);   }
+  44%  { transform: translate(60vw,   70vh);   }
+  58%  { transform: translate(10vw,  -20vh);   }
+  72%  { transform: translate(-20vw,  80vh);   }
+  88%  { transform: translate(40vw,   20vh);   }
+  100% { transform: translate(-10vw, -35vh);   }
+}
+@keyframes pulse3 {
+  0%,100% { opacity:.70; filter:blur(110px); }
+  50%     { opacity:.25; filter:blur(170px); }
 }
 
-.hero-streak-1 {
-  width: 2px;
-  height: 40vh;
-  left: 28%;
-  top: -20%;
-  background: linear-gradient(180deg,
-    transparent 0%,
-    rgba(120, 190, 255, .55) 30%,
-    rgba(160, 120, 255, .40) 65%,
-    transparent 100%);
-  filter: blur(6px);
-  animation: streakFall1 8s ease-in-out infinite;
-  will-change: transform, opacity;
+/* ── Orb 4: amber/orange — top-right to bottom-left ── */
+.hero-orb-4 {
+  width: 60vw; height: 60vw;
+  left: 50vw; top: -10vh;
+  background: radial-gradient(circle at 50% 45%,
+    rgba(255, 140, 30, .28) 0%,
+    rgba(230, 80, 20, .14) 52%,
+    transparent 72%);
+  filter: blur(95px);
+  animation: orb4 27s ease-in-out infinite alternate,
+             pulse4 5.5s ease-in-out infinite;
+  animation-delay: -5s, -1s;
+}
+@keyframes orb4 {
+  0%   { transform: translate(0,      0);      }
+  18%  { transform: translate(-60vw,  30vh);   }
+  36%  { transform: translate(-20vw,  80vh);   }
+  52%  { transform: translate(-50vw, -15vh);   }
+  68%  { transform: translate(10vw,   55vh);   }
+  84%  { transform: translate(-40vw,  10vh);   }
+  100% { transform: translate(-70vw,  70vh);   }
+}
+@keyframes pulse4 {
+  0%,100% { opacity:.72; filter:blur(95px);  }
+  50%     { opacity:.28; filter:blur(150px); }
 }
 
-.hero-streak-2 {
-  width: 2px;
-  height: 32vh;
-  right: 34%;
-  top: -20%;
-  background: linear-gradient(180deg,
-    transparent 0%,
-    rgba(200, 100, 255, .45) 30%,
-    rgba(100, 180, 255, .35) 65%,
-    transparent 100%);
-  filter: blur(5px);
-  animation: streakFall2 11s ease-in-out infinite 2s;
-  will-change: transform, opacity;
+/* ── Orb 5: deep blue — bottom-left corner outward ── */
+.hero-orb-5 {
+  width: 70vw; height: 70vw;
+  left: -10vw; top: 60vh;
+  background: radial-gradient(circle at 45% 50%,
+    rgba(40, 120, 255, .26) 0%,
+    rgba(20, 60, 200, .12) 48%,
+    transparent 70%);
+  filter: blur(105px);
+  animation: orb5 31s ease-in-out infinite alternate,
+             pulse5 6.5s ease-in-out infinite;
+  animation-delay: -19s, -4s;
+}
+@keyframes orb5 {
+  0%   { transform: translate(0,      0);      }
+  22%  { transform: translate(70vw,  -55vh);   }
+  40%  { transform: translate(30vw,  -80vh);   }
+  56%  { transform: translate(80vw,   10vh);   }
+  72%  { transform: translate(20vw,  -40vh);   }
+  88%  { transform: translate(55vw,  -70vh);   }
+  100% { transform: translate(10vw,  -20vh);   }
+}
+@keyframes pulse5 {
+  0%,100% { opacity:.68; filter:blur(105px); }
+  50%     { opacity:.22; filter:blur(165px); }
 }
 
-/* ── Glass noise grain overlay (iOS frosted feel) ── */
+/* ── Orb 6: magenta accent — right edge, mid-screen ── */
+.hero-orb-6 {
+  width: 55vw; height: 55vw;
+  left: 60vw; top: 35vh;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(220, 60, 200, .22) 0%,
+    rgba(180, 30, 160, .10) 50%,
+    transparent 72%);
+  filter: blur(85px);
+  animation: orb6 25s ease-in-out infinite alternate,
+             pulse6 4.5s ease-in-out infinite;
+  animation-delay: -11s, -2.5s;
+}
+@keyframes orb6 {
+  0%   { transform: translate(0,      0);      }
+  16%  { transform: translate(-70vw, -30vh);   }
+  32%  { transform: translate(-40vw,  40vh);   }
+  50%  { transform: translate(-80vw, -50vh);   }
+  66%  { transform: translate(-20vw,  60vh);   }
+  82%  { transform: translate(-60vw,  10vh);   }
+  100% { transform: translate(-30vw, -60vh);   }
+}
+@keyframes pulse6 {
+  0%,100% { opacity:.62; filter:blur(85px);  }
+  50%     { opacity:.20; filter:blur(140px); }
+}
+
+/* ── Noise grain overlay ── */
 .hero-noise {
   position: absolute;
   inset: 0;
-  opacity: .028;
+  opacity: .025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
   mix-blend-mode: overlay;
   pointer-events: none;
-}
-
-/* ════════════════════ KEYFRAMES ════════════════════ */
-
-@keyframes orbDrift1 {
-  0%   { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(12vw, 10vh) scale(1.18); }
-  55%  { transform: translate(20vw, -6vh) scale(0.88); }
-  80%  { transform: translate(6vw, 18vh) scale(1.22); }
-  100% { transform: translate(16vw, 8vh) scale(1.10); }
-}
-@keyframes orbBreathe1 {
-  0%   { opacity: .92; filter: blur(60px) saturate(1.4); }
-  40%  { opacity: .38; filter: blur(130px) saturate(0.7); }
-  70%  { opacity: .85; filter: blur(55px) saturate(1.5); }
-  100% { opacity: .92; filter: blur(60px) saturate(1.4); }
-}
-
-@keyframes orbDrift2 {
-  0%   { transform: translate(0, 0) scale(1); }
-  30%  { transform: translate(-16vw, -12vh) scale(1.22); }
-  65%  { transform: translate(-8vw, -20vh) scale(0.84); }
-  100% { transform: translate(-18vw, -8vh) scale(1.15); }
-}
-@keyframes orbBreathe2 {
-  0%   { opacity: .88; filter: blur(65px) saturate(1.35); }
-  35%  { opacity: .30; filter: blur(140px) saturate(0.65); }
-  72%  { opacity: .80; filter: blur(60px) saturate(1.45); }
-  100% { opacity: .88; filter: blur(65px) saturate(1.35); }
-}
-
-@keyframes orbDrift3 {
-  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
-  40%  { transform: translate(-14vw, 16vh) scale(1.26) rotate(14deg); }
-  75%  { transform: translate(16vw, -12vh) scale(0.80) rotate(-10deg); }
-  100% { transform: translate(4vw, 10vh) scale(1.14) rotate(6deg); }
-}
-@keyframes orbBreathe3 {
-  0%   { opacity: .82; filter: blur(70px) saturate(1.3); }
-  45%  { opacity: .28; filter: blur(150px) saturate(0.6); }
-  78%  { opacity: .76; filter: blur(65px) saturate(1.4); }
-  100% { opacity: .82; filter: blur(70px) saturate(1.3); }
-}
-
-@keyframes orbDrift4 {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(-10vw, 18vh) scale(1.20); }
-  100% { transform: translate(12vw, 8vh) scale(0.86); }
-}
-@keyframes orbBreathe4 {
-  0%   { opacity: .78; filter: blur(75px); }
-  42%  { opacity: .25; filter: blur(130px); }
-  100% { opacity: .78; filter: blur(75px); }
-}
-
-@keyframes streakFall1 {
-  0%   { transform: translateY(0) scaleX(1); opacity: 0; }
-  6%   { opacity: 1; }
-  48%  { transform: translateY(130vh) scaleX(2.0); opacity: .9; }
-  75%  { opacity: 0; }
-  100% { transform: translateY(160vh) scaleX(1); opacity: 0; }
-}
-@keyframes streakFall2 {
-  0%   { transform: translateY(0) scaleX(1); opacity: 0; }
-  8%   { opacity: .95; }
-  52%  { transform: translateY(140vh) scaleX(2.4); opacity: .75; }
-  80%  { opacity: 0; }
-  100% { transform: translateY(170vh) scaleX(1); opacity: 0; }
 }
 
 /* ══════════ Card shine + liquid glass border ══════════ */
