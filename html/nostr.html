@@ -122,6 +122,11 @@
           return value.substring(end - search.length, end) === search;
         };
       }
+      if (!Number.isFinite) {
+        Number.isFinite = function (value) {
+          return typeof value === "number" && isFinite(value);
+        };
+      }
       if (window.Promise && !Promise.prototype.finally) {
         Promise.prototype.finally = function (callback) {
           var P = this.constructor;
@@ -612,6 +617,7 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
+      contain: layout style;
     }
 
     html.tv-mode .media-grid {
@@ -644,6 +650,7 @@
       color: var(--text);
       scroll-snap-align: start;
       backdrop-filter: blur(10px) saturate(1.05);
+      contain: layout style;
     }
 
     .media-grid .card {
@@ -1128,6 +1135,17 @@
     }
 
     @media (max-width: 719px) {
+      html:not(.tv-mode) #detailSheet:not(.detail-large) .detail-cover {
+        border-radius: 14px;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      html:not(.tv-mode) #detailSheet:not(.detail-large) .detail-cover::before,
+      html:not(.tv-mode) #detailSheet:not(.detail-large) .detail-cover img {
+        border-radius: inherit;
+      }
+
       html:not(.tv-mode) .detail-cover.has-multiple {
         touch-action: pan-y;
       }
@@ -1355,12 +1373,23 @@
     }
 
     #detailSheet.detail-large {
-      --detail-side-pad: clamp(42px, 5.4vw, 80px);
-      --detail-top-pad: clamp(46px, 7.2vh, 82px);
+      --detail-side-pad: 64px;
+      --detail-top-pad: 56px;
       background: #06111b;
+      height: 100vh !important;
+      height: var(--fm-web-height) !important;
+      min-height: 0;
+      padding: 56px 64px 54px;
       padding: var(--detail-top-pad) var(--detail-side-pad) calc(34px + var(--fm-safe-bottom) + env(safe-area-inset-bottom));
       overflow-y: auto;
       overflow-x: hidden;
+    }
+
+    @supports (width: clamp(1px, 2vw, 3px)) {
+      #detailSheet.detail-large {
+        --detail-side-pad: clamp(42px, 5.4vw, 80px);
+        --detail-top-pad: clamp(46px, 7.2vh, 82px);
+      }
     }
 
     #detailSheet.detail-large::before,
@@ -1378,8 +1407,8 @@
 
     #detailSheet.detail-large::before {
       background-image:
-        linear-gradient(90deg, rgba(4, 12, 19, .98) 0%, rgba(4, 12, 19, .9) 28%, rgba(4, 12, 19, .48) 56%, rgba(4, 12, 19, .82) 100%),
-        linear-gradient(180deg, rgba(4, 12, 19, .1) 0%, rgba(4, 12, 19, .78) 72%, #06111b 100%),
+        linear-gradient(90deg, rgba(4, 12, 19, .98) 0%, rgba(4, 12, 19, .88) 30%, rgba(4, 12, 19, .42) 58%, rgba(4, 12, 19, .54) 100%),
+        linear-gradient(180deg, rgba(4, 12, 19, .08) 0%, rgba(4, 12, 19, .66) 72%, #06111b 100%),
         var(--detail-hero-bg, none);
       background-size: cover;
       background-position: center, center, right top;
@@ -1402,17 +1431,48 @@
       top: 0;
       right: 0;
       z-index: 1;
+      width: 68vw;
+      max-width: 940px;
       width: min(68vw, 940px);
-      max-width: none;
+      height: 66vh;
+      max-height: 620px;
       height: min(66vh, 620px);
       min-height: 360px;
-      max-height: none;
       margin: 0;
       aspect-ratio: auto;
       border-radius: 0;
       overflow: hidden;
       pointer-events: none;
       background: transparent;
+    }
+
+    #detailSheet.detail-large .detail-cover[data-cover-mode="landscape"] {
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .28) 3%, rgba(0, 0, 0, .76) 7%, #000 12%, #000 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .28) 3%, rgba(0, 0, 0, .76) 7%, #000 12%, #000 100%);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+    }
+
+    #detailSheet.detail-large .detail-cover[data-cover-mode="landscape"]::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      width: 16%;
+      pointer-events: none;
+      background-image: var(--detail-cover-bg, none);
+      background-size: cover;
+      background-position: center top;
+      opacity: .16;
+      filter: blur(8px) saturate(.92);
+      transform: scale(1.04);
+      transform-origin: left center;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 36%, rgba(0, 0, 0, .66) 68%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 36%, rgba(0, 0, 0, .66) 68%, transparent 100%);
     }
 
     #detailSheet.detail-large .detail-cover::after {
@@ -1425,8 +1485,8 @@
       inset: 0;
       z-index: 2;
       background:
-        linear-gradient(90deg, #06111b 0%, rgba(6, 17, 27, .76) 12%, rgba(6, 17, 27, .14) 44%, rgba(6, 17, 27, .18) 100%),
-        linear-gradient(180deg, rgba(6, 17, 27, .12) 0%, rgba(6, 17, 27, .08) 56%, #06111b 100%);
+        linear-gradient(90deg, #06111b 0%, rgba(6, 17, 27, .78) 5%, rgba(6, 17, 27, .34) 13%, rgba(6, 17, 27, .1) 24%, rgba(6, 17, 27, .1) 100%),
+        linear-gradient(180deg, rgba(6, 17, 27, .1) 0%, rgba(6, 17, 27, .06) 56%, #06111b 100%);
     }
 
     #detailSheet.detail-large .detail-cover.poster-mode::after {
@@ -1439,6 +1499,11 @@
       filter: saturate(.92) contrast(.98) brightness(.76);
     }
 
+    #detailSheet.detail-large .detail-cover[data-cover-mode="landscape"] img {
+      transform: translateZ(0) scale(1.012);
+      transform-origin: center top;
+    }
+
     #detailSheet.detail-large .detail-cover.poster-mode img {
       object-fit: cover !important;
       object-position: center 18%;
@@ -1447,6 +1512,7 @@
     #detailSheet.detail-large .detail-info,
     #detailSheet.detail-large > .actions,
     #detailSheet.detail-large .detail-block {
+      max-width: 760px;
       max-width: min(760px, 54vw);
     }
 
@@ -1462,6 +1528,7 @@
     }
 
     #detailSheet.detail-large .detail-info h2 {
+      font-size: 56px;
       font-size: clamp(38px, 5.2vw, 64px);
       line-height: 1.04;
       font-weight: 850;
@@ -1471,6 +1538,7 @@
 
     #detailSheet.detail-large .detail-title-meta {
       gap: 0;
+      font-size: 24px;
       font-size: clamp(20px, 2.3vw, 28px);
       line-height: 1;
       font-weight: 820;
@@ -1507,6 +1575,7 @@
     #detailSheet.detail-large .detail-info p {
       max-width: 690px;
       color: rgba(232, 239, 247, .82);
+      font-size: 17px;
       font-size: clamp(15px, 1.45vw, 18px);
       line-height: 1.72;
       text-shadow: 0 2px 10px rgba(0, 0, 0, .42);
@@ -1537,6 +1606,7 @@
       background: rgba(54, 68, 80, .56);
       border-color: rgba(255, 255, 255, .12);
       box-shadow: none;
+      font-size: 20px;
       font-size: clamp(18px, 1.8vw, 22px);
       font-weight: 820;
       backdrop-filter: none;
@@ -1566,17 +1636,20 @@
     }
 
     #detailSheet.detail-large #seasonBlock {
+      margin-top: 48px;
       margin-top: clamp(34px, 5.2vh, 58px);
     }
 
     #detailSheet.detail-large .detail-block h3 {
       margin: 0 0 14px;
+      font-size: 26px;
       font-size: clamp(21px, 2vw, 28px);
       font-weight: 820;
       text-shadow: 0 2px 12px rgba(0, 0, 0, .45);
     }
 
     #detailSheet.detail-large #seasonTabs {
+      max-width: 760px;
       max-width: min(760px, 54vw);
       padding-bottom: 8px;
     }
@@ -1592,6 +1665,8 @@
     }
 
     #detailSheet.detail-large .episode-card {
+      flex: 0 0 260px;
+      max-width: 260px;
       flex: 0 0 clamp(210px, 18.4vw, 286px);
       max-width: clamp(210px, 18.4vw, 286px);
       min-height: 0;
@@ -1660,6 +1735,7 @@
 
     #detailSheet.detail-large .episode-card b {
       color: #fff;
+      font-size: 17px;
       font-size: clamp(15px, 1.35vw, 18px);
       font-weight: 800;
       line-height: 1.18;
@@ -1675,6 +1751,8 @@
     }
 
     #detailSheet.detail-large .person-card {
+      flex: 0 0 286px;
+      max-width: 286px;
       flex: 0 0 clamp(240px, 20vw, 310px);
       max-width: clamp(240px, 20vw, 310px);
       height: 96px;
@@ -1705,6 +1783,7 @@
     }
 
     #detailSheet.detail-large .person-card b {
+      font-size: 22px;
       font-size: clamp(18px, 1.55vw, 24px);
       font-weight: 820;
       line-height: 1.08;
@@ -1714,12 +1793,15 @@
     #detailSheet.detail-large .person-card span {
       margin-top: 7px;
       color: rgba(232, 239, 247, .58);
+      font-size: 16px;
       font-size: clamp(14px, 1.25vw, 18px);
       line-height: 1.08;
       -webkit-line-clamp: 1;
     }
 
     #detailSheet.detail-large .card.landscape-card {
+      flex: 0 0 270px;
+      max-width: 270px;
       flex: 0 0 clamp(222px, 18.6vw, 300px);
       max-width: clamp(222px, 18.6vw, 300px);
       aspect-ratio: 16 / 9;
@@ -1768,17 +1850,79 @@
     @media (max-width: 960px) {
       #detailSheet.detail-large {
         --detail-side-pad: 38px;
+        padding-left: 38px;
+        padding-right: 38px;
       }
 
       #detailSheet.detail-large .detail-info,
       #detailSheet.detail-large > .actions,
       #detailSheet.detail-large .detail-block,
       #detailSheet.detail-large #seasonTabs {
+        max-width: 720px;
         max-width: min(720px, 68vw);
       }
 
       #detailSheet.detail-large .detail-cover {
         width: 72vw;
+      }
+    }
+
+    @media (max-height: 760px) {
+      #detailSheet.detail-large {
+        --detail-top-pad: 44px;
+        padding-top: 44px;
+      }
+
+      #detailSheet.detail-large .detail-title-row {
+        margin-bottom: 14px;
+      }
+
+      #detailSheet.detail-large .detail-info h2 {
+        font-size: 48px;
+        font-size: clamp(34px, 4.7vw, 52px);
+      }
+
+      #detailSheet.detail-large .detail-title-meta {
+        font-size: 21px;
+        font-size: clamp(18px, 2vw, 24px);
+      }
+
+      #detailSheet.detail-large .detail-meta {
+        margin-bottom: 12px;
+      }
+
+      #detailSheet.detail-large .meta-pill {
+        min-height: 30px;
+        font-size: 15px;
+      }
+
+      #detailSheet.detail-large .detail-info p {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      #detailSheet.detail-large > .actions {
+        margin-top: 16px;
+      }
+
+      #detailSheet.detail-large > .actions .btn {
+        min-height: 50px;
+        padding: 0 22px;
+        font-size: 18px;
+      }
+
+      #detailSheet.detail-large #seasonBlock {
+        margin-top: 32px;
+      }
+
+      #detailSheet.detail-large .detail-block h3 {
+        margin-bottom: 10px;
+        font-size: 23px;
+      }
+
+      #detailSheet.detail-large .episode-card {
+        flex-basis: 226px;
+        max-width: 226px;
       }
     }
 
@@ -2287,7 +2431,7 @@
       outline-offset: -2px;
       border-color: rgba(255, 255, 255, .96);
       background: rgba(var(--panel-rgb), .72);
-      box-shadow: inset 0 0 0 1px rgba(168, 218, 255, .72);
+      box-shadow: none;
       transition: none;
       z-index: 12;
     }
@@ -2298,10 +2442,40 @@
 
     html.tv-mode .card:focus {
       border-color: rgba(255, 255, 255, .98);
-      box-shadow: inset 0 0 0 1px rgba(168, 218, 255, .74);
+      box-shadow: none;
+    }
+
+    html.tv-mode #recommendRail .card:focus,
+    html.tv-mode #listStack .card:focus,
+    html.tv-mode #searchRail .card:focus {
+      transform: translateY(-2px) scale(1.045);
+      outline: none;
+      border-color: rgba(255, 255, 255, .98);
+      background: rgba(var(--panel-rgb), .76);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, .98);
+    }
+
+    html.tv-mode .pan-result-item:focus {
+      transform: translateY(-1px);
+      outline: 2px solid rgba(255, 255, 255, .9);
+      outline-offset: -2px;
+      border-color: rgba(255, 255, 255, .96);
+      box-shadow: none;
+      background: rgba(82, 100, 112, .86);
+      z-index: 12;
+    }
+
+    html.tv-mode #detailSheet.detail-large .episode-card:focus,
+    html.tv-mode #detailSheet.detail-large .person-card:focus,
+    html.tv-mode #detailSheet.detail-large .card.landscape-card:focus {
+      border-color: rgba(255, 255, 255, .98);
+      box-shadow: none;
     }
 
     html.tv-mode .card,
+    html.tv-mode .field,
+    html.tv-mode .pan-result-item,
+    html.tv-mode .person-info,
     html.tv-mode .rating-badge,
     html.tv-mode .recent-badge,
     html.tv-mode .live-entry-card {
@@ -2687,6 +2861,9 @@
     };
 
     const $ = (id) => document.getElementById(id);
+    try {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    } catch (e) {}
     const DEFAULT_TMDB_API_KEY = String(window.WEBHOME_CONFIG.tmdb.apiKey || "").trim();
     const PAN_DISK_TYPES = [
       { id: "quark", name: "夸克" },
@@ -2746,6 +2923,7 @@
       detailCover: { images: [], index: 0, timer: 0, token: 0, swipe: null },
       deviceMode: "unknown",
       detailReturn: null,
+      homeReturn: null,
       focusReturnEl: null,
       remoteInitialFocused: false,
       renderTimer: 0,
@@ -2753,6 +2931,8 @@
       homeContentSeq: 0,
       activeGridAppendTimer: 0,
       activeGridAppendId: "",
+      focusScrollTimer: 0,
+      focusScrollTarget: null,
       scrollingUntil: 0,
       infiniteObserver: null,
       scrollLoadTimer: 0,
@@ -5160,13 +5340,22 @@
     }
 
     function gridColumns(grid) {
+      const widthKey = grid ? `${Math.floor(window.innerWidth || document.documentElement.clientWidth || 0)}:${isTvMode() ? "tv" : "web"}` : "";
+      if (grid && grid.dataset.columnCacheKey === widthKey && grid.dataset.columnCacheValue) return Number(grid.dataset.columnCacheValue) || 1;
       const value = grid ? getComputedStyle(grid).gridTemplateColumns : "";
       const count = value && value !== "none" ? value.split(" ").filter(Boolean).length : 0;
-      if (count > 0) return count;
-      if (isTvMode()) return 5;
-      if ((window.innerWidth || 0) >= 1180) return 6;
-      if ((window.innerWidth || 0) >= 720) return 4;
-      return 3;
+      let columns = count;
+      if (columns <= 0) {
+        if (isTvMode()) columns = 5;
+        else if ((window.innerWidth || 0) >= 1180) columns = 6;
+        else if ((window.innerWidth || 0) >= 720) columns = 4;
+        else columns = 3;
+      }
+      if (grid) {
+        grid.dataset.columnCacheKey = widthKey;
+        grid.dataset.columnCacheValue = String(columns);
+      }
+      return columns;
     }
 
     function initialGridBatchSize(grid) {
@@ -5244,8 +5433,11 @@
       if (!grid) return;
       const info = state.gridRender[gridRenderId(grid)];
       if (!info || Number(info.rendered || 0) >= Number(info.total || 0)) return;
-      const cards = Array.from(grid.querySelectorAll(".card"));
-      const index = cards.indexOf(card);
+      let index = Number(card.dataset.cardIndex || -1);
+      if (!Number.isFinite(index) || index < 0) {
+        const cards = Array.from(grid.children).filter((child) => child.classList && child.classList.contains("card"));
+        index = cards.indexOf(card);
+      }
       if (index < 0) return;
       const threshold = Math.max(0, Number(info.rendered || 0) - gridColumns(grid) * 2);
       if (index >= threshold) scheduleGridAppend(grid);
@@ -5363,6 +5555,7 @@
       const landscape = !!opts.landscape;
       button.className = "card focusable" + (people > 0 ? " has-people" : "") + (recent ? " recent-card" : "") + (landscape ? " landscape-card" : "");
       button.type = "button";
+      button.dataset.cardIndex = String(index || 0);
       if (key) button.dataset.mediaKey = key;
       if (blockKey) button.dataset.blockKey = blockKey;
       button.__mediaItem = item;
@@ -5404,7 +5597,7 @@
           return;
         }
         if (item.source === "history") openRecentItem(item);
-        else openDetail(item);
+        else openDetail(item, { returnTarget: button });
       });
       return button;
     }
@@ -5628,8 +5821,125 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       }
     }
 
+    function homeScrollTop() {
+      return Math.round(window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0);
+    }
+
+    function homeFocusSnapshot(target, item) {
+      const el = target && target.closest ? target : null;
+      const card = el && el.closest(".card[data-media-key]");
+      if (card) {
+        const grid = card.closest(".media-grid,.rail");
+        return {
+          type: "media",
+          key: card.dataset.mediaKey || mediaDomKey(item),
+          cardIndex: Number(card.dataset.cardIndex || -1),
+          gridId: grid && (grid.dataset.listId || grid.id || "") || ""
+        };
+      }
+      const chip = el && el.closest("#chips .chip[data-chip-id]");
+      if (chip) return { type: "chip", key: chip.dataset.chipId || "" };
+      const itemKey = mediaDomKey(item);
+      if (itemKey) return { type: "media", key: itemKey, cardIndex: -1, gridId: "" };
+      if (el && el.id) return { type: "id", key: el.id };
+      return { type: "", key: "" };
+    }
+
+    function rememberHomeReturn(item, returnTarget) {
+      const target = returnTarget && returnTarget.isConnected ? returnTarget : document.activeElement;
+      state.homeReturn = {
+        scrollY: homeScrollTop(),
+        activeList: state.activeList || "all",
+        mediaKey: mediaDomKey(item),
+        focus: homeFocusSnapshot(target, item),
+        at: Date.now()
+      };
+    }
+
+    function findHomeReturnMediaTarget(saved, focus) {
+      const key = focus.key || saved.mediaKey || "";
+      const candidates = key ? Array.from(document.querySelectorAll(".app .card[data-media-key]"))
+        .filter((el) => String(el.dataset.mediaKey || "") === String(key) && isVisibleFocusable(el)) : [];
+      if (focus.gridId) {
+        const scoped = candidates.find((el) => {
+          const grid = el.closest(".media-grid,.rail");
+          return grid && String(grid.dataset.listId || grid.id || "") === String(focus.gridId);
+        });
+        if (scoped) return scoped;
+      }
+      if (candidates.length) return candidates[0];
+      const grid = focus.gridId === "searchRail" ? $("searchRail") : activeMediaGrid();
+      const index = Number(focus.cardIndex);
+      if (!grid || !Number.isFinite(index) || index < 0) return null;
+      let guard = 0;
+      while (grid.querySelectorAll(".card").length <= index && appendGridBatch(grid) && guard < 60) guard += 1;
+      const indexed = grid.querySelectorAll(".card")[index] || null;
+      return isVisibleFocusable(indexed) ? indexed : null;
+    }
+
+    function findHomeReturnTarget(saved) {
+      if (!saved) return null;
+      const focus = saved.focus || {};
+      if (focus.type === "media") return findHomeReturnMediaTarget(saved, focus);
+      if (focus.type === "chip") return findByDataset($("chips"), "chipId", focus.key);
+      if (focus.type === "id" && focus.key) return $(focus.key);
+      if (saved.activeList) return findByDataset($("chips"), "chipId", saved.activeList);
+      return firstContentFocus();
+    }
+
+    function applyHomeScrollTop(y) {
+      window.scrollTo(0, y);
+      document.documentElement.scrollTop = y;
+      document.body.scrollTop = y;
+      updateBackTopButton();
+    }
+
+    function focusHomeReturnTarget(target) {
+      if (!isVisibleFocusable(target)) return false;
+      state.remoteInitialFocused = true;
+      try {
+        target.focus({ preventScroll: true });
+      } catch (e) {
+        target.focus();
+      }
+      maybeAppendGridForFocus(target);
+      return true;
+    }
+
+    function restoreHomeReturn() {
+      const saved = state.homeReturn;
+      if (!saved) return false;
+      if (Date.now() - Number(saved.at || 0) > 10 * 60 * 1000) {
+        state.homeReturn = null;
+        return false;
+      }
+      state.homeReturn = null;
+      if (saved.activeList && isKnownList(saved.activeList) && state.activeList !== saved.activeList) {
+        state.activeList = saved.activeList;
+        normalizeActiveListForViewport();
+        renderAll({ deferContent: false });
+      }
+      const y = Math.max(0, Number(saved.scrollY || 0));
+      const apply = (withFocus) => {
+        if ($("detailSheet") && $("detailSheet").classList.contains("active")) return;
+        const target = withFocus ? findHomeReturnTarget(saved) : null;
+        if (target) focusHomeReturnTarget(target);
+        applyHomeScrollTop(y);
+      };
+      requestAnimationFrame(() => apply(true));
+      setTimeout(() => apply(true), 80);
+      setTimeout(() => apply(false), 240);
+      setTimeout(() => {
+        apply(false);
+        scheduleUiSnapshotSave();
+      }, 520);
+      return true;
+    }
+
     function openDetail(item, options) {
       const opts = options || {};
+      const detailWasActive = $("detailSheet") && $("detailSheet").classList.contains("active");
+      if (!opts.restore && !detailWasActive) rememberHomeReturn(item, opts.returnTarget);
       state.selected = item;
       state.detail = null;
       if (!opts.keepPan) resetPanSearch();
@@ -6082,9 +6392,12 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       const sheetRect = sheet.getBoundingClientRect();
       const actionsRect = actions.getBoundingClientRect();
       const textRect = text.getBoundingClientRect();
+      const season = $("seasonBlock");
+      const seasonRect = season && season.style.display !== "none" ? season.getBoundingClientRect() : null;
       const firstScreenBottom = Math.min(sheetRect.bottom, sheetRect.top + (sheet.clientHeight || window.innerHeight || 0));
       const safeBottom = firstScreenBottom - Math.max(58, (window.innerHeight || 0) * .06);
-      const overflow = actionsRect.bottom - safeBottom;
+      const targetRect = sheet.classList.contains("detail-large") && seasonRect ? seasonRect : actionsRect;
+      const overflow = targetRect.bottom - safeBottom;
       const naturalHeight = text.scrollHeight;
       const lineHeight = parseFloat(getComputedStyle(text).lineHeight || "21") || 21;
       const minHeight = Math.max(44, lineHeight * 2.05);
@@ -7117,6 +7430,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
 
     function closeDetail(fromPopState) {
       const sheet = $("detailSheet");
+      const shouldGoBack = !fromPopState && location.hash === "#detail";
       document.body.classList.remove("detail-active");
       document.body.classList.remove("episode-active");
       sheet.classList.remove("active");
@@ -7127,8 +7441,9 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       stopDetailCoverCarousel(true);
       resetPanSearch();
       setNativeToolbarVisible(true);
+      if (shouldGoBack) history.back();
+      restoreHomeReturn();
       scheduleUiSnapshotSave();
-      if (!fromPopState && location.hash === "#detail") history.back();
     }
 
     function openSync(options) {
@@ -8280,7 +8595,9 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
         if (!key) return;
         const el = document.activeElement;
         const editing = isTextEditingElement(el);
-        if (key !== "Enter" && ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key) && ensureRemoteActiveFocus()) {
+        const directional = isDirectionalKey(key);
+        if (directional && isHomeChipFocus(el) && (key === "ArrowUp" || key === "ArrowDown")) clearTimeout(state.chipFocusTimer);
+        if (key !== "Enter" && directional && ensureRemoteActiveFocus()) {
           event.preventDefault();
           return;
         }
@@ -8297,7 +8614,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
           if (activateFocusedElement(el, event)) return;
           return;
         }
-        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key)) {
+        if (directional) {
           if (handleSearchSuggestDirectionalKey(key, event)) return;
           if (handleSearchFormDirectionalKey(key, event)) return;
           if (handleConnectionPanelDirectionalKey(key, event)) return;
@@ -8314,7 +8631,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
             event.preventDefault();
             el.blur();
           }
-          if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key)) {
+          if (directional) {
             const target = nearestFocusable(key, el);
             if (!target) return;
             event.preventDefault();
@@ -8339,11 +8656,11 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
           if (sdk().back) return sdk().back();
           return;
         }
-        if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key)) return;
+        if (!directional) return;
         if (handleScrollableOverlayKey(key, event)) return;
         if (handlePanDirectionalKey(key, event)) return;
         if (handleDetailDirectionalKey(key, event)) return;
-        const target = nearestFocusable(key);
+        const target = fastDirectionalTarget(key, el) || nearestFocusable(key);
         if (target) {
           event.preventDefault();
           if (!isPanFocusTarget(target)) state.pan.focusMode = "";
@@ -8894,7 +9211,12 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
     function isFirstVisiblePanResult(el) {
       const list = $("panResultList");
       if (!list || !list.contains(el)) return false;
-      return Array.from(list.querySelectorAll(".pan-result-item")).filter(isVisibleFocusable)[0] === el;
+      let node = list.firstElementChild;
+      while (node) {
+        if (node.classList && node.classList.contains("pan-result-item") && isVisibleFocusable(node)) return node === el;
+        node = node.nextElementSibling;
+      }
+      return false;
     }
 
     function siblingFocusable(root, current, delta) {
@@ -8913,10 +9235,108 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
       return items[index + delta] || null;
     }
 
+    function isDirectionalKey(key) {
+      return key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight";
+    }
+
+    function isHomeChipFocus(el) {
+      const chips = $("chips");
+      return !!(chips && el && chips.contains(el));
+    }
+
     function normalizeRemoteKey(event) {
-      if (["Enter", "Escape", "Backspace", "BrowserBack", "GoBack", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) return event.key === "BrowserBack" || event.key === "GoBack" ? "Escape" : event.key;
-      const map = { 13: "Enter", 23: "Enter", 66: "Enter", 4: "Escape", 8: "Backspace", 27: "Escape", 10009: "Escape", 461: "Escape", 19: "ArrowUp", 20: "ArrowDown", 21: "ArrowLeft", 22: "ArrowRight" };
+      const key = String(event.key || "");
+      const keyMap = {
+        Enter: "Enter", OK: "Enter", Select: "Enter",
+        Escape: "Escape", Esc: "Escape", Backspace: "Backspace", BrowserBack: "Escape", GoBack: "Escape",
+        ArrowUp: "ArrowUp", Up: "ArrowUp",
+        ArrowDown: "ArrowDown", Down: "ArrowDown",
+        ArrowLeft: "ArrowLeft", Left: "ArrowLeft",
+        ArrowRight: "ArrowRight", Right: "ArrowRight"
+      };
+      if (keyMap[key]) return keyMap[key];
+      const map = { 13: "Enter", 23: "Enter", 66: "Enter", 4: "Escape", 8: "Backspace", 27: "Escape", 10009: "Escape", 461: "Escape", 19: "ArrowUp", 20: "ArrowDown", 21: "ArrowLeft", 22: "ArrowRight", 38: "ArrowUp", 40: "ArrowDown", 37: "ArrowLeft", 39: "ArrowRight" };
       return map[event.keyCode || event.which] || "";
+    }
+
+    function fastDirectionalTarget(key, active) {
+      if (!active || !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key)) return null;
+      if (focusScopeRoot() !== document) return null;
+      return fastChipDirectionalTarget(key, active)
+        || fastGridDirectionalTarget(key, active)
+        || fastRailDirectionalTarget(key, active)
+        || fastLiveDirectionalTarget(key, active);
+    }
+
+    function fastChipDirectionalTarget(key, active) {
+      const chips = $("chips");
+      if (!chips || !chips.contains(active)) return null;
+      if (key === "ArrowLeft" || key === "ArrowRight") return fastSibling(chips, active, key === "ArrowRight" ? 1 : -1, ".chip");
+      if (key === "ArrowDown") return firstHomeContentTarget();
+      return null;
+    }
+
+    function fastGridDirectionalTarget(key, active) {
+      const card = active && active.classList && active.classList.contains("card") ? active : null;
+      const grid = card && card.closest && card.closest(".media-grid");
+      if (!grid || grid.closest && grid.closest(".list-panel[hidden]")) return null;
+      let index = Number(card.dataset.cardIndex || -1);
+      if (!Number.isFinite(index) || index < 0) index = Array.prototype.indexOf.call(grid.children, card);
+      if (index < 0) return null;
+      const columns = Math.max(1, gridColumns(grid));
+      const count = grid.children.length;
+      let targetIndex = -1;
+      if (key === "ArrowLeft" && index % columns > 0) targetIndex = index - 1;
+      else if (key === "ArrowRight" && index % columns < columns - 1) targetIndex = index + 1;
+      else if (key === "ArrowUp") targetIndex = index - columns;
+      else if (key === "ArrowDown") targetIndex = index + columns;
+      if (targetIndex >= 0 && targetIndex < count) return gridCardAt(grid, targetIndex);
+      if (key === "ArrowUp" && targetIndex < 0) return currentHomeFocus();
+      if (key === "ArrowDown" && targetIndex >= count && appendGridBatch(grid)) {
+        observeInfiniteScroll();
+        return gridCardAt(grid, targetIndex);
+      }
+      return null;
+    }
+
+    function fastRailDirectionalTarget(key, active) {
+      const rail = active && active.closest && active.closest("#searchRail");
+      if (!rail || !rail.contains(active)) return null;
+      if (key === "ArrowLeft" || key === "ArrowRight") return fastSibling(rail, active, key === "ArrowRight" ? 1 : -1, ".card");
+      if (key === "ArrowUp") return $("searchInput") || null;
+      if (key === "ArrowDown") return currentHomeFocus() || firstHomeContentTarget();
+      return null;
+    }
+
+    function fastLiveDirectionalTarget(key, active) {
+      if (!active || !active.classList || !active.classList.contains("live-entry-card")) return null;
+      return key === "ArrowUp" ? currentHomeFocus() : null;
+    }
+
+    function firstHomeContentTarget() {
+      const grid = activeMediaGrid();
+      const gridTarget = grid && gridCardAt(grid, 0);
+      if (gridTarget) return gridTarget;
+      const panel = Array.from($("listStack").querySelectorAll(".list-panel")).find((item) => !item.hidden && item.dataset.listId === state.activeList);
+      return panel && (Array.from(panel.children).find((child) => canFastFocus(child)) || Array.from(panel.querySelectorAll(".live-entry-card.focusable, .focusable, button")).find(canFastFocus)) || null;
+    }
+
+    function gridCardAt(grid, index) {
+      const target = grid && index >= 0 ? grid.children[index] : null;
+      return target && target.classList && target.classList.contains("card") && canFastFocus(target) ? target : null;
+    }
+
+    function fastSibling(root, current, delta, selector) {
+      let target = delta > 0 ? current.nextElementSibling : current.previousElementSibling;
+      while (target && root.contains(target)) {
+        if (target.matches && target.matches(selector) && canFastFocus(target)) return target;
+        target = delta > 0 ? target.nextElementSibling : target.previousElementSibling;
+      }
+      return null;
+    }
+
+    function canFastFocus(el) {
+      return !!(el && el.matches && el.matches(".focusable,button,input,textarea") && !el.disabled && el.getAttribute("tabindex") !== "-1" && !el.hidden && !el.closest("[hidden]") && !el.closest('[aria-hidden="true"]'));
     }
 
     function focusRemoteTarget(target) {
@@ -8927,7 +9347,18 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
         target.focus();
       }
       maybeAppendGridForFocus(target);
-      keepFocusInView(target);
+      scheduleFocusInView(target);
+    }
+
+    function scheduleFocusInView(target) {
+      state.focusScrollTarget = target;
+      if (state.focusScrollTimer) return;
+      state.focusScrollTimer = requestAnimationFrame(() => {
+        const target = state.focusScrollTarget;
+        state.focusScrollTimer = 0;
+        state.focusScrollTarget = null;
+        if (target && target.isConnected) keepFocusInView(target);
+      });
     }
 
     function keepFocusInView(target) {
@@ -9052,6 +9483,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
         detailScrollTop: detail ? Math.round(detail.scrollTop || 0) : 0,
         imageUrl: $("viewerImage") && $("viewerImage").style.display !== "none" ? $("viewerImage").getAttribute("src") || "" : "",
         detailReturn: state.detailReturn || null,
+        homeReturn: state.homeReturn || null,
         pan: {
           visible: !!($("panSearchBlock") && $("panSearchBlock").classList.contains("active")),
           keyword: state.pan.keyword || "",
@@ -9132,6 +9564,7 @@ nsec: ${state.identity.nsec}` : "身份未就绪";
     async function restoreUiSnapshot(snapshot) {
       if (!snapshot) return false;
       state.detailReturn = snapshot.detailReturn || null;
+      state.homeReturn = snapshot.homeReturn || null;
       restoreSearchSnapshot(snapshot.search);
       if (snapshot.activeList) state.activeList = snapshot.activeList;
       normalizeActiveListForViewport();
