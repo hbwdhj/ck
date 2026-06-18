@@ -111,7 +111,7 @@
 
     {
       "key": "乌云",
-      "name": "乌云_php",
+      "name": "乌云",
       "type": 4,
       "api": "https://api.uumnet.com/tvbox/php/wooyun.php",
       "playUrl": "",
@@ -163,34 +163,6 @@
 
 
 
-    {
-      "key": "爱豆",
-      "name": "爱豆",
-      "type": 1,
-      "api": "https://aidou.la/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1
-    },
-
-
-
-
-
-
-
-
-
- {
-      "key": "souav",
-      "name": "sou",
-      "type": 1,
-      "api": "https://api.souavzyw.net/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-
-
 
     {
       "key": "仓库①",
@@ -211,6 +183,35 @@
       "api": "https://hsckzy888.com/api.php/provide/vod/at/json/",
       "searchable": 1,
       "quickSearch": 1
+    },
+
+
+
+    {
+      "key": "爱豆",
+      "name": "爱豆",
+      "type": 1,
+      "api": "https://aidou.la/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+
+
+
+
+
+
+
+ {
+      "key": "souav",
+      "name": "搜色",
+      "type": 1,
+      "api": "https://api.souavzyw.net/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
 
 
@@ -476,14 +477,6 @@
 
 
 
-    {
-      "key": "91麻豆_cms",
-      "name": "91麻豆",
-      "type": 1,
-      "api": "http://91md.me/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1
-    },
 
 
 
