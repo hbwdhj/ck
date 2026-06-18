@@ -122,94 +122,23 @@
 
 
 
-        {
-            "key": "php_官方",
-            "name": "官方_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/官方资源.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_斗鱼",
-            "name": "斗鱼_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/斗鱼直播.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_欧乐",
-            "name": "欧乐_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/欧乐影院.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_天堂",
-            "name": "天堂_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/电影天堂.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_虎牙",
-            "name": "虎牙_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/虎牙直播.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-        {
-            "key": "php_非凡",
-            "name": "非凡_php",
-            "type": 4,
-            "api": "https://php.doube.eu.org/spider/php/非凡资源.php",
-            "searchable": 1,
-            "quickSearch": 0,
-            "changeable": 0
-        },
-
-
-
-
-
-
-
-
-
-
+    
     {
-      "key": "麻豆_php",
-      "name": "麻豆_php",
+      "key": "麻豆①",
+      "name": "麻豆①",
       "type": 1,
-      "api": "https://php.doube.eu.org/spider/php/麻豆.php",
+      "api": "http://86876.cc/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
-      "quickSearch": 1
+      "quickSearch": 1,
+      "filterable": 1
     },
 
 
 
 
-
-
-
-
     {
-      "key": "麻豆io",
-      "name": "麻豆io",
+      "key": "麻豆②",
+      "name": "麻豆②",
       "type": 1,
       "api": "https://gt.uczyw.com/https://madou.io/api.php/provide/vod/from/m3u8/",
       "searchable": 1,
@@ -219,26 +148,18 @@
 
 
 
+
+
     {
-      "key": "麻豆19",
-      "name": "麻豆19",
+      "key": "麻豆③",
+      "name": "麻豆③",
       "type": 1,
-      "api": "https://19q.cc/api.php/provide/vod/",
+      "api": "https://gt.uczyw.com/https:/91md.me/api.php/provide/vod/",
       "searchable": 1,
       "quickSearch": 1
     },
 
 
-
-    {
-      "key": "溏心",
-      "name": "溏心",
-      "type": 1,
-      "api": "http://86876.cc/api.php/provide/vod/from/m3u8/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
 
 
 
