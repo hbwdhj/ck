@@ -111,7 +111,7 @@
 
     {
       "key": "乌云",
-      "name": "乌云_php",
+      "name": "乌云",
       "type": 4,
       "api": "https://api.uumnet.com/tvbox/php/wooyun.php",
       "playUrl": "",
