@@ -10,7 +10,7 @@ const baseUrl = sites[0];
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
 function mylog() {
-    const TAG = "xp天堂18+";
+    const TAG = "xp18+";
     console.log(TAG, ...arguments)
 }
 async function init(extend) { }
