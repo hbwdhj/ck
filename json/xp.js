@@ -2,6 +2,7 @@ import cheerio from 'assets://js/lib/cheerio.min.js';
 
 
 const sites = [
+    'https://d1l9iou1fqkudn.cloudfront.net/',
     'https://dzsx5k01kgm6y.cloudfront.net',//这个可以直连
     'https://attack.bjidvlyog.com',
     'https://agency.bjidvlyog.com/'
