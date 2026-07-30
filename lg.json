@@ -191,6 +191,34 @@
     },
 
 
+ {
+      "key": "huosua",
+      "name": "huo,
+      "type": 1,
+      "api": "https://api.huosuapi.cc/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
+
+
+ {
+      "key": "heiapi",
+      "name": "hei,
+      "type": 1,
+      "api": "https://api.heiapi.cc/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
+
+
+
+
 
     {
       "key": "仓库①",
