@@ -69,8 +69,8 @@ var index_config_default = {
   },
   cms: {
     list: [
-      {"name": "非凡资源", "address": "http://ffzy.tv/api.php/provide/vod/from/ffm3u8/at/json/"},
-      {"name": "麻豆视频", "address": "https://86876.cc/api.php/provide/vod"}
+      // {"name": "非凡资源", "address": "http://ffzy.tv/api.php/provide/vod/from/ffm3u8/at/json/"},
+      // {"name": "麻豆视频", "address": "https://19q.cc/api.php/provide/vod"}
     ]
   },
   alist: [
