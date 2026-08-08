@@ -2,13 +2,13 @@ import cheerio from 'assets://js/lib/cheerio.min.js';
 
 
 const sites = [
-    'https://ddw7dq9ey089k.cloudfront.net/',
-    'https://dzsx5k01kgm6y.cloudfront.net/',
-    'https://afford.aaubygttf.com/',
-    'https://beyond.aaubygttf.com/',
-    'https://anger.aaubygttf.com/',
-    'https://arm.aaubygttf.com/',
-    'https://anger.aaubygttf.com/'
+    'https://ddw7dq9ey089k.cloudfront.net',
+    'https://dzsx5k01kgm6y.cloudfront.net',
+    'https://afford.aaubygttf.com',
+    'https://beyond.aaubygttf.com',
+    'https://anger.aaubygttf.com',
+    'https://arm.aaubygttf.com',
+    'https://anger.aaubygttf.com'
     
 ]
 const baseUrl = sites[0];
