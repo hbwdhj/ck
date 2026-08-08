@@ -1,7 +1,8 @@
-// XP天堂 适配Fongmi修复版，解决图片base64、aesX、cheerio闪退
+// XP天堂 Fongmi稳定修复版 可正常加载首页+解决影片闪退
+import cheerio from 'assets://js/lib/cheerio.min.js';
 const sites = [
     'https://ddw7dq9ey089k.cloudfront.net',
-    'https://dzsx5k01kgm6y.cloudfront.net',
+    'shturl.cc/acZZucqmhG6ddUbzMYdaMVJjJy',
     'https://afford.aaubygttf.com',
     'https://beyond.aaubygttf.com',
     'https://anger.aaubygttf.com',
@@ -18,20 +19,17 @@ let cachedClasses = [];
 let cachedFilters = {};
 let hasParsed = false;
 
-// 替换cheerio，使用Fongmi内置parseHtml原生DOM，消除卡顿
-function parseHtml(html) {
-    return dom(html);
+// 兼容缺失aesX函数，空兜底避免崩溃
+function aesX() {
+    return "";
 }
 
-/**
- * 1. 首页分类
- */
 async function home(filter) {
     try {
         const res = await req(baseUrl, { headers: { "User-Agent": UA }, timeout: 5000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ class: [] });
-        const $ = parseHtml(html);
+        const $ = cheerio.load(html);
         let classes = [];
         let filters = {};
         const sortFilter = [
@@ -79,15 +77,12 @@ async function home(filter) {
             filters: await homeFilter()
         });
     } catch (e) {
-        mylog("home解析异常", e.message);
+        mylog("首页解析异常", e.message);
         return JSON.stringify({ class: [] });
     }
 }
 async function homeFilter() {
-    mylog("开始解析筛选逻辑");
-    if (hasParsed) {
-        return cachedFilters;
-    }
+    if (hasParsed) return cachedFilters;
     return {};
 }
 function fixVodName(name = "") {
@@ -96,32 +91,25 @@ function fixVodName(name = "") {
     return parts.length > 2 ? parts.slice(1, -1).join(" ") : name.trim();
 }
 
-/**
- * 图片解密修复：移除aesX依赖，解密失败直接返回原图URL（彻底杜绝超长base64闪退）
- */
+// 图片处理核心修复：放弃base64，直接返回原图链接，规避内存溢出闪退
 async function getRealImgurl(imgurl) {
-    // 修复方案：放弃解密base64，直接返回原图地址，避免超大字符串内存溢出
     if (!imgurl) return "";
     try {
+        // 仅请求不解析解密，解密函数失效直接返回原图地址
         await req(imgurl, {
-            method: "get",
             headers: {
                 "User-Agent": UA,
                 "Referer": "https://wuabeza.gyqspl.cn/"
             },
             timeout: 3000
         });
-        // 不生成data:image base64，直接返回图片链接，Fongmi原生加载图片不爆内存
         return imgurl;
     } catch (e) {
-        mylog("图片加载失败", imgurl, e.message);
+        mylog("图片加载失败", imgurl);
         return "";
     }
 }
 
-/**
- * 分类列表，增加单条异常捕获，防止单个影片崩溃整页
- */
 async function category(tid, pg, filter, extend) {
     try {
         if (!tid) return JSON.stringify({ list: [] });
@@ -129,14 +117,13 @@ async function category(tid, pg, filter, extend) {
         extend = extend || {};
         const sort = extend.sort || '';
         let url = `${baseUrl}${tid}/${sort}/${pg}/`.replace(/\/+/g, '/').replace(':/', '://');
-        mylog(`分类请求: ${url}`);
         const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
-        const $ = parseHtml(html);
+        const $ = cheerio.load(html);
         const videoElements = $('.col-6.col-sm-4.col-lg-3').toArray();
         const list = [];
-        // 取消Promise.all并发，串行请求封面，降低并发内存占用
+        // 串行请求封面，取消并发Promise.all降低内存占用
         for (const el of videoElements) {
             try {
                 const item = $(el).find('.video-img-box a');
@@ -160,29 +147,28 @@ async function category(tid, pg, filter, extend) {
                         ratio: 1.78
                     });
                 }
-            } catch (err) { mylog("单条影片解析跳过", err.message); continue; }
+            } catch (err) {
+                mylog("单条影片跳过", err.message);
+                continue;
+            }
         }
         let total = $('ul.dx-pager').attr("data-rec-total") || 0;
         let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
         const pagecount = Math.ceil(total / perPageCount) || 1;
-        mylog(`分类加载成功:${list.length}条`);
         return JSON.stringify({ list, pagecount });
     } catch (e) {
-        mylog("category全局异常", e);
+        mylog("分类页面异常", e);
         return JSON.stringify({ list: [] });
     }
 }
 
-/**
- * 详情页
- */
 async function detail(vid) {
     try {
         const url = (baseUrl + vid).replace(/\/+/g, '/').replace(':/', '://');
         const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
-        const $ = parseHtml(html);
+        const $ = cheerio.load(html);
         let vod_name = $('h1.my-foldable-content').text().trim() || $('h1').text().trim();
         let vod_pic = $('#player').attr('data-src') || '';
         if (vod_pic) vod_pic = await getRealImgurl(vod_pic);
@@ -219,23 +205,19 @@ async function detail(vid) {
         };
         return JSON.stringify({ list: [back] });
     } catch (e) {
-        mylog("详情页异常", e);
+        mylog("详情页加载失败", e);
         return JSON.stringify({ list: [] });
     }
 }
 
-/**
- * 搜索
- */
 async function search(key, quick, page) {
     try {
         page = page || 1;
         const url = `${baseUrl}/search/${encodeURIComponent(key)}/${page}/`.replace(/\/+/g, '/').replace(':/', '://');
-        mylog(`搜索: ${url}`);
         const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
-        const $ = parseHtml(html);
+        const $ = cheerio.load(html);
         const searchElements = $('.video-img-box').toArray();
         const list = [];
         for (const el of searchElements) {
@@ -247,14 +229,17 @@ async function search(key, quick, page) {
                 if (vod_pic) vod_pic = await getRealImgurl(vod_pic);
                 const vod_remarks = $(el).find('.absolute-bottom-right .label').text().trim();
                 list.push({ vod_id, vod_name, vod_pic, vod_remarks });
-            } catch (err) { mylog("搜索单条跳过", err); continue; }
+            } catch (err) {
+                mylog("搜索单条解析失败", err);
+                continue;
+            }
         }
         let total = $('ul.dx-pager').attr("data-rec-total") || 0;
         let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
         const pagecount = Math.ceil(total / perPageCount) || 1;
         return JSON.stringify({ list, pagecount });
     } catch (e) {
-        mylog("搜索异常", e);
+        mylog("搜索接口异常", e);
         return JSON.stringify({ list: [] });
     }
 }
