@@ -1,10 +1,3 @@
-// 回家的路：
-//国内最新网址: https://xptta9.com
-//永久域名: https://xpxp618.com
-//电报官方群群: https://t.me/XPheaven
-//官方邮箱: xptiantang@gmail.com
-//发布页: https://github.com/xptiantang/xpxp618
-
 import cheerio from 'assets://js/lib/cheerio.min.js';
 
 
