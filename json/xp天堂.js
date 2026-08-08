@@ -1,4 +1,4 @@
-// XP天堂 Fongmi稳定修复版 可正常加载首页+解决影片闪退
+// XP天堂 Fongmi修复版｜修复图片空白、播放带$无法播放、闪退
 import cheerio from 'assets://js/lib/cheerio.min.js';
 const sites = [
     'https://ddw7dq9ey089k.cloudfront.net',
@@ -19,14 +19,9 @@ let cachedClasses = [];
 let cachedFilters = {};
 let hasParsed = false;
 
-// 兼容缺失aesX函数，空兜底避免崩溃
-function aesX() {
-    return "";
-}
-
 async function home(filter) {
     try {
-        const res = await req(baseUrl, { headers: { "User-Agent": UA }, timeout: 5000 });
+        const res = await req(baseUrl, { headers: { "User‑Agent": UA }, timeout: 5000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ class: [] });
         const $ = cheerio.load(html);
@@ -45,7 +40,7 @@ async function home(filter) {
             }
         ];
         $('.app-nav .container').each((index, element) => {
-            const blockTitle = $(element).find('.title-box h2').text().trim();
+            const blockTitle = $(element).find('.title‑box h2').text().trim();
             if (blockTitle.includes("选片") || blockTitle.includes("主题")) {
                 $(element).find('a.tjtagmanager').each((i, el) => {
                     const name = $(el).text().trim();
@@ -91,23 +86,11 @@ function fixVodName(name = "") {
     return parts.length > 2 ? parts.slice(1, -1).join(" ") : name.trim();
 }
 
-// 图片处理核心修复：放弃base64，直接返回原图链接，规避内存溢出闪退
+// 图片处理：不再内部GET请求（会403空白），原样返回加密图片地址
 async function getRealImgurl(imgurl) {
     if (!imgurl) return "";
-    try {
-        // 仅请求不解析解密，解密函数失效直接返回原图地址
-        await req(imgurl, {
-            headers: {
-                "User-Agent": UA,
-                "Referer": "https://wuabeza.gyqspl.cn/"
-            },
-            timeout: 3000
-        });
-        return imgurl;
-    } catch (e) {
-        mylog("图片加载失败", imgurl);
-        return "";
-    }
+    // 直接返回原始加密图片地址，不在脚本内解密，避免大base64造成闪退
+    return imgurl;
 }
 
 async function category(tid, pg, filter, extend) {
@@ -117,16 +100,15 @@ async function category(tid, pg, filter, extend) {
         extend = extend || {};
         const sort = extend.sort || '';
         let url = `${baseUrl}${tid}/${sort}/${pg}/`.replace(/\/+/g, '/').replace(':/', '://');
-        const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
+        const res = await req(url, { headers: { "User‑Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
         const $ = cheerio.load(html);
-        const videoElements = $('.col-6.col-sm-4.col-lg-3').toArray();
+        const videoElements = $('.col‑6.col‑sm‑4.col‑lg‑3').toArray();
         const list = [];
-        // 串行请求封面，取消并发Promise.all降低内存占用
         for (const el of videoElements) {
             try {
-                const item = $(el).find('.video-img-box a');
+                const item = $(el).find('.video‑img‑box a');
                 const href = item.attr('href') || '';
                 if (href.includes('/videos/')) {
                     const vod_id = href;
@@ -135,7 +117,7 @@ async function category(tid, pg, filter, extend) {
                     const watchCount = $(el).find('span[class^="interaction_watch_count_"]').text().trim() || '';
                     const vod_remarks = watchCount ? (watchCount + "播放") : "";
                     const vod_year = $(el).find('.label').text().trim();
-                    let vod_pic = $(el).find('img.zximg').attr('z-image-loader-url') || '';
+                    let vod_pic = $(el).find('img.zximg').attr('z‑image‑loader‑url') || '';
                     if (vod_pic) vod_pic = await getRealImgurl(vod_pic);
                     list.push({
                         vod_id,
@@ -152,8 +134,8 @@ async function category(tid, pg, filter, extend) {
                 continue;
             }
         }
-        let total = $('ul.dx-pager').attr("data-rec-total") || 0;
-        let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
+        let total = $('ul.dx‑pager').attr("data‑rec‑total") || 0;
+        let perPageCount = $('ul.dx‑pager').attr("data‑rec‑per‑page") || 1;
         const pagecount = Math.ceil(total / perPageCount) || 1;
         return JSON.stringify({ list, pagecount });
     } catch (e) {
@@ -165,12 +147,12 @@ async function category(tid, pg, filter, extend) {
 async function detail(vid) {
     try {
         const url = (baseUrl + vid).replace(/\/+/g, '/').replace(':/', '://');
-        const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
+        const res = await req(url, { headers: { "User‑Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
         const $ = cheerio.load(html);
-        let vod_name = $('h1.my-foldable-content').text().trim() || $('h1').text().trim();
-        let vod_pic = $('#player').attr('data-src') || '';
+        let vod_name = $('h1.my‑foldable‑content').text().trim() || $('h1').text().trim();
+        let vod_pic = $('#player').attr('data‑src') || '';
         if (vod_pic) vod_pic = await getRealImgurl(vod_pic);
         let tagsArray = [];
         $('h5.tags a').each((i, el) => {
@@ -183,12 +165,13 @@ async function detail(vid) {
         tagsArray.forEach(tag => {
             vod_content += `[a=cr:{"action":"category","key":"${tag}"}/]【${tag}】[/a]   `;
         });
+        // 修复：捕获m3u8，去除链接最前面多余$符号
         const regex = /https?:\/\/[^\s"'`]+\.m3u8(?:\?[^\s"'`]+)?/g;
         const match = html.match(regex);
-        let hlsUrl = match ? match[0] : '';
+        let hlsUrl = match ? match[0].replace(/^\$+/,'') : '';
         const vod_play_from = "hls线路";
         const vod_play_url = `正片$$${hlsUrl}`;
-        const watchCount = $('.video-info span[class^="interaction_watch_count_"]').text().trim() || '';
+        const watchCount = $('.video‑info span[class^="interaction_watch_count_"]').text().trim() || '';
         const favorite_count = $('#bind_collect_count').text().trim() || '';
         let vod_remarks = watchCount ? (watchCount + "播放") : "";
         if (favorite_count) vod_remarks += (vod_remarks ? " | " : "") + favorite_count + "收藏";
@@ -197,9 +180,9 @@ async function detail(vid) {
             vod_remarks,
             vod_name: vod_name,
             vod_pic: vod_pic,
-            vod_content: vod_content,
-            vod_actor: vod_actor,
-            vod_class: vod_class,
+            vod_content,
+            vod_actor,
+            vod_class,
             vod_play_from,
             vod_play_url
         };
@@ -214,28 +197,28 @@ async function search(key, quick, page) {
     try {
         page = page || 1;
         const url = `${baseUrl}/search/${encodeURIComponent(key)}/${page}/`.replace(/\/+/g, '/').replace(':/', '://');
-        const res = await req(url, { headers: { "User-Agent": UA }, timeout: 6000 });
+        const res = await req(url, { headers: { "User‑Agent": UA }, timeout: 6000 });
         const html = res ? res.content : '';
         if (!html) return JSON.stringify({ list: [] });
         const $ = cheerio.load(html);
-        const searchElements = $('.video-img-box').toArray();
+        const searchElements = $('.video‑img‑box').toArray();
         const list = [];
         for (const el of searchElements) {
             try {
-                const a = $(el).find('.img-box > a');
+                const a = $(el).find('.img‑box > a');
                 const vod_id = $(a).attr('href') || '';
                 const vod_name = fixVodName($(a).find('img').attr('alt') || '');
-                let vod_pic = $(a).find('img.zximg').attr('z-image-loader-url') || '';
+                let vod_pic = $(a).find('img.zximg').attr('z‑image‑loader‑url') || '';
                 if (vod_pic) vod_pic = await getRealImgurl(vod_pic);
-                const vod_remarks = $(el).find('.absolute-bottom-right .label').text().trim();
+                const vod_remarks = $(el).find('.absolute‑bottom‑right .label').text().trim();
                 list.push({ vod_id, vod_name, vod_pic, vod_remarks });
             } catch (err) {
                 mylog("搜索单条解析失败", err);
                 continue;
             }
         }
-        let total = $('ul.dx-pager').attr("data-rec-total") || 0;
-        let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
+        let total = $('ul.dx‑pager').attr("data‑rec‑total") || 0;
+        let perPageCount = $('ul.dx‑pager').attr("data‑rec‑per‑page") || 1;
         const pagecount = Math.ceil(total / perPageCount) || 1;
         return JSON.stringify({ list, pagecount });
     } catch (e) {
@@ -248,7 +231,10 @@ async function play(flag, id, vipFlags) {
     return JSON.stringify({
         parse: 0,
         url: id,
-        header: { "User-Agent": UA, "Referer": baseUrl }
+        header: {
+            "User‑Agent": UA,
+            "Referer": baseUrl
+        }
     });
 }
 
