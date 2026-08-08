@@ -1,4 +1,4 @@
-// XP天堂 原版最小闪退修复｜图片/播放逻辑完全保留，仅加兼容+串行+超时
+// XP天堂 Fongmi专用｜修复aes解密空白、串行防闪退、播放完全原版
 import cheerio from 'assets://js/lib/cheerio.min.js';
 const sites = [
     'https://ddw7dq9ey089k.cloudfront.net',
@@ -19,23 +19,19 @@ let cachedClasses = [];
 let cachedFilters = {};
 let hasParsed = false;
 
-// 新增：补齐缺失的aesX解密函数，原版图片解密依赖，解决未定义崩溃
+// 替换：Fongmi原生内置AES CBC解密，不用crypto/Buffer，解密正常不空白
 function aesX(mode, isEncrypt, data, isBase64, key, iv, autoPad) {
     if (isEncrypt) return "";
     try {
-        const bytes = Buffer.from(data, "base64");
-        const cipher = crypto.createDecipheriv("aes-128-cbc", Buffer.from(key), Buffer.from(iv));
-        let dec = cipher.update(bytes);
-        dec = Buffer.concat([dec, cipher.final()]);
-        return dec.toString("base64");
+        // Fongmi标准内置解密接口
+        const rawBin = crypto.aesCbcDecrypt(data, key, iv, false);
+        return crypto.toBase64(rawBin);
     } catch (e) {
+        mylog("aes解密失败", e);
         return "";
     }
 }
 
-/**
- * 1. 首页分类（仅外层加超时+捕获，逻辑完全原版）
- */
 async function home(filter) {
     try {
         const res = await req(baseUrl, { headers: { "User-Agent": UA }, timeout: 5000 });
@@ -104,9 +100,7 @@ function fixVodName(name = "") {
     return parts.length > 2 ? parts.slice(1, -1).join(" ") : name.trim();
 }
 
-/**
- * 分类列表：核心修改，删除Promise.all并发，改为串行循环拉取封面，降低内存占用防闪退
- */
+// 分类：串行请求防闪退，其余原版不变
 async function category(tid, pg, filter, extend) {
     try {
         if (!tid) return JSON.stringify({ list: [] });
@@ -121,7 +115,7 @@ async function category(tid, pg, filter, extend) {
         const $ = cheerio.load(html);
         const videoElements = $('.col-6.col-sm-4.col-lg-3').toArray();
         const list = [];
-        // 串行替代并发Promise.all，解决瞬间高内存闪退，内部逻辑完全原版不变
+        // 串行替代Promise.all，降低内存防闪退
         for (const el of videoElements) {
             try {
                 const item = $(el).find('.video-img-box a');
@@ -145,7 +139,7 @@ async function category(tid, pg, filter, extend) {
                         ratio: 1.78
                     });
                 }
-            } catch (err) { mylog("单条资源解析跳过", err); continue; }
+            } catch (err) { mylog("单条跳过", err); continue; }
         }
         let total = $('ul.dx-pager').attr("data-rec-total") || 0;
         let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
@@ -158,9 +152,7 @@ async function category(tid, pg, filter, extend) {
     }
 }
 
-/**
- * 详情页：仅增加超时，图片、播放拼接逻辑100%原版无改动
- */
+// 详情 100%原版播放提取逻辑，无修改
 async function detail(vid) {
     try {
         const url = (baseUrl + vid).replace(/\/+/g, '/').replace(':/', '://');
@@ -192,7 +184,9 @@ async function detail(vid) {
         const watchCount = $('.video-info span[class^="interaction_watch_count_"]').text().trim().toUpperCase() || '';
         const favorite_count = $('#bind_collect_count').text().trim().toUpperCase() || '';
         let vod_remarks = watchCount ? (watchCount + "播放") : "";
-        if (favorite_count) vod_remarks += (vod_remarks ? " | " : "") + favorite_count + "收藏";
+        if (favorite_count) {
+            vod_remarks += (vod_remarks ? " | " : "") + favorite_count + "收藏";
+        }
         const back = {
             vod_id: vid,
             vod_remarks,
@@ -211,9 +205,7 @@ async function detail(vid) {
     }
 }
 
-/**
- * 搜索页：同样串行替换并发，其余原版不变
- */
+// 搜索串行防闪退，其余原版
 async function search(key, quick, page) {
     try {
         page = page || 1;
@@ -252,7 +244,7 @@ async function search(key, quick, page) {
     }
 }
 
-// play播放函数完全原版，无任何修改
+// play播放函数完全原版无改动
 async function play(flag, id, vipFlags) {
     return JSON.stringify({
         parse: 0,
@@ -261,7 +253,7 @@ async function play(flag, id, vipFlags) {
     });
 }
 
-// getRealImgurl图片解密函数完全保留原版，图片正常显示不改动
+// 图片解密：调用修复后的Fongmi原生aesX，输出干净无空格base64
 async function getRealImgurl(imgurl) {
     try {
         if (!imgurl) return "";
@@ -285,12 +277,15 @@ async function getRealImgurl(imgurl) {
             "97b60394abc2fbe1",
             true
         );
+        // 清除base64换行空格，避免Fongmi渲染失败
+        realImageBase64 = realImageBase64.replace(/\s/g, '');
         if (!realImageBase64) return "";
         let ext = "jpeg";
         if (imgurl.toLowerCase().indexOf(".gif") !== -1) ext = "gif";
         else if (imgurl.toLowerCase().indexOf(".png") !== -1) ext = "png";
-        return "data:image/" + ext + ";base64," + realImageBase64;
+        return `data:image/${ext};base64,${realImageBase64}`;
     } catch (e) {
+        mylog("图片解密失败", e);
         return "";
     }
 }
