@@ -1,4 +1,3 @@
-// XP天堂 Fongmi专用｜修复aes解密空白、串行防闪退、播放完全原版
 import cheerio from 'assets://js/lib/cheerio.min.js';
 const sites = [
     'https://ddw7dq9ey089k.cloudfront.net',
@@ -19,15 +18,15 @@ let cachedClasses = [];
 let cachedFilters = {};
 let hasParsed = false;
 
-// 替换：Fongmi原生内置AES CBC解密，不用crypto/Buffer，解密正常不空白
+// 适配Fongmi原生AES CBC NoPadding解密，对齐网站加密规则
 function aesX(mode, isEncrypt, data, isBase64, key, iv, autoPad) {
     if (isEncrypt) return "";
     try {
-        // Fongmi标准内置解密接口
-        const rawBin = crypto.aesCbcDecrypt(data, key, iv, false);
-        return crypto.toBase64(rawBin);
+        // 传入base64密文、16位key、16位iv，无填充
+        const rawBin = crypto.aesCbcDecrypt(data, key, iv, true);
+        return crypto.toBase64(rawBin).replace(/\s+/g, "");
     } catch (e) {
-        mylog("aes解密失败", e);
+        mylog("AES解密失败", e.message);
         return "";
     }
 }
@@ -71,7 +70,7 @@ async function home(filter) {
                     let href = $(el).attr('href') || '';
                     href = href.replace(/\/(favorite|update|hot|watch)\/?$/, '');
                     if (href && name) {
-                        classes.push({ type_id: href, type_name: `🏷️ ${name}` });
+                        classes.push({ type_id: href, name: `🏷️ ${name}` });
                         filters[href] = sortFilter;
                     }
                 });
@@ -100,7 +99,6 @@ function fixVodName(name = "") {
     return parts.length > 2 ? parts.slice(1, -1).join(" ") : name.trim();
 }
 
-// 分类：串行请求防闪退，其余原版不变
 async function category(tid, pg, filter, extend) {
     try {
         if (!tid) return JSON.stringify({ list: [] });
@@ -115,7 +113,7 @@ async function category(tid, pg, filter, extend) {
         const $ = cheerio.load(html);
         const videoElements = $('.col-6.col-sm-4.col-lg-3').toArray();
         const list = [];
-        // 串行替代Promise.all，降低内存防闪退
+        // 串行请求，杜绝并发内存溢出闪退
         for (const el of videoElements) {
             try {
                 const item = $(el).find('.video-img-box a');
@@ -139,7 +137,7 @@ async function category(tid, pg, filter, extend) {
                         ratio: 1.78
                     });
                 }
-            } catch (err) { mylog("单条跳过", err); continue; }
+            } catch (err) { mylog("单条资源跳过", err); continue; }
         }
         let total = $('ul.dx-pager').attr("data-rec-total") || 0;
         let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
@@ -152,7 +150,6 @@ async function category(tid, pg, filter, extend) {
     }
 }
 
-// 详情 100%原版播放提取逻辑，无修改
 async function detail(vid) {
     try {
         const url = (baseUrl + vid).replace(/\/+/g, '/').replace(':/', '://');
@@ -184,9 +181,7 @@ async function detail(vid) {
         const watchCount = $('.video-info span[class^="interaction_watch_count_"]').text().trim().toUpperCase() || '';
         const favorite_count = $('#bind_collect_count').text().trim().toUpperCase() || '';
         let vod_remarks = watchCount ? (watchCount + "播放") : "";
-        if (favorite_count) {
-            vod_remarks += (vod_remarks ? " | " : "") + favorite_count + "收藏";
-        }
+        if (favorite_count) vod_remarks += (vod_remarks ? " | " : "") + favorite_count + "收藏";
         const back = {
             vod_id: vid,
             vod_remarks,
@@ -205,7 +200,6 @@ async function detail(vid) {
     }
 }
 
-// 搜索串行防闪退，其余原版
 async function search(key, quick, page) {
     try {
         page = page || 1;
@@ -232,19 +226,18 @@ async function search(key, quick, page) {
                     vod_pic,
                     vod_remarks
                 });
-            } catch (err) { mylog("搜索单条跳过", err); continue; }
+            } catch (err) { mylog("搜索单条解析失败", err); continue; }
         }
         let total = $('ul.dx-pager').attr("data-rec-total") || 0;
         let perPageCount = $('ul.dx-pager').attr("data-rec-per-page") || 1;
         const pagecount = Math.ceil(total / perPageCount) || 1;
         return JSON.stringify({ list, pagecount });
     } catch (e) {
-        mylog(e);
+        mylog("搜索接口异常", e);
         return JSON.stringify({ list: [] });
     }
 }
 
-// play播放函数完全原版无改动
 async function play(flag, id, vipFlags) {
     return JSON.stringify({
         parse: 0,
@@ -253,7 +246,7 @@ async function play(flag, id, vipFlags) {
     });
 }
 
-// 图片解密：调用修复后的Fongmi原生aesX，输出干净无空格base64
+// 原版图片解密逻辑完整修复
 async function getRealImgurl(imgurl) {
     try {
         if (!imgurl) return "";
@@ -266,8 +259,9 @@ async function getRealImgurl(imgurl) {
             buffer: 2,
             timeout: 4000
         });
-        const encryptedBase64 = res ? res.content : '';
+        const encryptedBase64 = res ? res.content.replace(/\s/g, "") : "";
         if (!encryptedBase64) return "";
+        // 原版加密参数完整传入
         let realImageBase64 = aesX(
             "AES/CBC/No",
             false,
@@ -277,15 +271,13 @@ async function getRealImgurl(imgurl) {
             "97b60394abc2fbe1",
             true
         );
-        // 清除base64换行空格，避免Fongmi渲染失败
-        realImageBase64 = realImageBase64.replace(/\s/g, '');
         if (!realImageBase64) return "";
         let ext = "jpeg";
-        if (imgurl.toLowerCase().indexOf(".gif") !== -1) ext = "gif";
-        else if (imgurl.toLowerCase().indexOf(".png") !== -1) ext = "png";
+        if (imgurl.toLowerCase().includes(".gif")) ext = "gif";
+        else if (imgurl.toLowerCase().includes(".png")) ext = "png";
         return `data:image/${ext};base64,${realImageBase64}`;
     } catch (e) {
-        mylog("图片解密失败", e);
+        mylog("图片加载解密失败", e.message);
         return "";
     }
 }
