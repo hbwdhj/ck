@@ -1,11 +1,22 @@
+// 回家的路：
+//XP天堂 国内最新网址: https://xptta9.com
+//XP天堂 永久域名: https://xpxp618.com
+//加入XP天堂 电报官方群群：https://t.me/XPheaven
+//官方邮箱： xptiantang@gmail.com
+//发布页 (https://github.com/xptiantang/xpxp618)
+
 import cheerio from 'assets://js/lib/cheerio.min.js';
 
 
 const sites = [
-    'https://d1l9iou1fqkudn.cloudfront.net/',
-    'https://dzsx5k01kgm6y.cloudfront.net',//这个可以直连
-    'https://attack.bjidvlyog.com',
-    'https://agency.bjidvlyog.com/'
+    'https://ddw7dq9ey089k.cloudfront.net/',
+    'https://dzsx5k01kgm6y.cloudfront.net/',
+    'https://afford.aaubygttf.com/',
+    'https://beyond.aaubygttf.com/',
+    'https://anger.aaubygttf.com/',
+    'https://arm.aaubygttf.com/',
+    'https://anger.aaubygttf.com/'
+    
 ]
 const baseUrl = sites[0];
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
