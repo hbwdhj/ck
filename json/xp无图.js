@@ -136,7 +136,7 @@ async function category(tid, pg, filter, extend) {
                         vod_year,
                         vod_remarks,
                         land: 1,
-                        ratio: 1.78
+                        ratio: 0.8
                     });
                 }
             } catch (err) { mylog("单条跳过", err); continue; }
