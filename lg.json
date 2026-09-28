@@ -11,6 +11,7 @@
       "api": "https://caiji.dbzy5.com/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
+      "filterable": 0,
       "categories": [
         "动作片",
         "喜剧片",
@@ -58,6 +59,7 @@
             "playerType": 1,
             "searchable": 1,
             "changeable": 1,
+            "filterable": 0,
             "categories": [
                 "国产动漫",
                 "日韩动漫",
@@ -102,7 +104,8 @@
       "type": 1,
       "api": "https://cj.lziapi.com/api.php/provide/vod",
       "searchable": 1,
-      "changeable": 1
+      "changeable": 1,
+       "filterable": 0
     },
 
 
@@ -115,7 +118,6 @@
       "name": "乌云",
       "type": 4,
       "api": "https://api.uumnet.com/tvbox/php/wooyun.php",
-      "playUrl": "",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -668,17 +670,6 @@
       "logo": "https://imgapi.cn/api.php"
     },
 
-
-
-
-   {
-      "name": "bg",
-      "type": 0,
-      "url": "http://nn.7x9d.cn/tv/Bunbun.m3u",
-      "ua": "okhttp/3.15",
-      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
-      "logo": "https://imgapi.cn/api.php"
-    },
 
 
 
