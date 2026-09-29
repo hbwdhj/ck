@@ -98,16 +98,13 @@
 
 
 
-   {
-      "key": "量子",
-      "name": "量子",
-      "type": 1,
-      "api": "https://cj.lziapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "changeable": 1,
-       "filterable": 0
-    },
+{
+"key": "枫叶",
+"name": "枫叶",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/fy.py"
 
+},
 
 
 
@@ -125,6 +122,7 @@
 
 
 
+
 {
 "key": "51短剧",
 "name": "51短剧",
@@ -132,6 +130,20 @@
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/51dj.py"
 
 },
+
+
+
+{
+"key": "黄果漫剧",
+"name": "黄果漫剧",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/hgmj.py"
+
+},
+
+
+
+
 
 {
 "key": "肉视频",
@@ -142,6 +154,56 @@
 },
 
 
+
+
+{
+"key": "香蕉九区",
+"name": "香蕉九区",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/xjjq.py"
+
+},
+
+
+
+
+{
+"key": "香蕉十区",
+"name": "香蕉十区",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/xjsq.py"
+
+},
+
+
+
+
+{
+"key": "one一个",
+"name": "one一个",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/one.py"
+
+},
+
+
+{
+"key": "集芳阁",
+"name": "集芳阁",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/jfg.py"
+
+},
+
+
+
+{
+"key": "missav",
+"name": "missav",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/miss.py"
+
+},
 
 
 
