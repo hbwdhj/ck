@@ -116,8 +116,8 @@
 
 
 {
-"key": "51短剧",
-"name": "51短剧",
+"key": "51dj",
+"name": "51dj",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/51dj.py"
 
@@ -126,8 +126,8 @@
 
 
 {
-"key": "黄果漫剧",
-"name": "黄果漫剧",
+"key": "hgmj",
+"name": "hgmj",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/hgmj.py"
 
@@ -137,10 +137,20 @@
 
 
 {
-"key": "黄豆短剧",
-"name": "黄豆短剧",
+"key": "ygdj",
+"name": "ygdj",
 "type": 3,
-"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/hddj.py"
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/ygdj.py"
+
+},
+
+
+
+{
+"key": "jgdj",
+"name": "jgdj",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/jgdj.py"
 
 },
 
@@ -149,8 +159,8 @@
 
 
 {
-"key": "肉视频",
-"name": "肉视频",
+"key": "rsp",
+"name": "rsp",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/rsp.py"
 
@@ -160,8 +170,8 @@
 
 
 {
-"key": "51吃瓜",
-"name": "51吃瓜",
+"key": "51cg",
+"name": "51cg",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/51cg.py"
 
@@ -171,8 +181,8 @@
 
 
 {
-"key": "香蕉十区",
-"name": "香蕉十区",
+"key": "xjsq",
+"name": "xjsq",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/xjsq.py"
 
@@ -182,8 +192,8 @@
 
 
 {
-"key": "one一个",
-"name": "one一个",
+"key": "one",
+"name": "one",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/one.py"
 
@@ -191,8 +201,8 @@
 
 
 {
-"key": "集芳阁",
-"name": "集芳阁",
+"key": "jfg",
+"name": "jfg",
 "type": 3,
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/jfg.py"
 
@@ -201,10 +211,47 @@
 
 
 {
-"key": "missav",
-"name": "missav",
+"key": "X",
+"name": "X",
 "type": 3,
-"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/miss.py"
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/x-m.py"
+
+},
+
+{
+"key": "Pektino",
+"name": "Pektino",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/pektino.py"
+
+},
+
+
+
+{
+"key": "txvlog①",
+"name": "Txvlog①",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/txvlog①.py"
+
+},
+
+
+
+{
+"key": "txvlog②",
+"name": "Txvlog②",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/txvlog②.py"
+
+},
+
+
+{
+"key": "xchina",
+"name": "Xchina",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/xchina.py"
 
 },
 
@@ -308,21 +355,13 @@
 
 
 
-    {
-      "key": "仓库①",
-      "name": "仓库①",
-      "type": 1,
-      "api": "https://hsckzy.vip/api.php/provide/vod/",
-      "searchable": 1,
-      "changeable": 1
-    },
- 
+  
 
 
 
     {
-      "key": "仓库②",
-      "name": "仓库②",
+      "key": "仓库",
+      "name": "仓库",
       "type": 1,
       "api": "https://hsckzy888.com/api.php/provide/vod/at/json/",
       "searchable": 1,
@@ -596,8 +635,8 @@
 
 
     {
-      "key": "CK百货",
-      "name": "CK百货",
+      "key": "百货",
+      "name": "百货",
       "type": 1,
       "api": "https://ckbh1.xyz/api.php/provide/vod/?ac=list",
       "searchable": 1,
