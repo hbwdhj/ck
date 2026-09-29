@@ -125,6 +125,26 @@
 
 
 
+{
+"key": "51短剧",
+"name": "51短剧",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/51dj.py"
+
+},
+
+{
+"key": "肉视频",
+"name": "肉视频",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/rsp.py"
+
+},
+
+
+
+
+
     
     {
       "key": "麻豆①",
@@ -196,7 +216,7 @@
 
  {
       "key": "huosua",
-      "name": "huo,
+      "name": "huo",
       "type": 1,
       "api": "https://api.huosuapi.cc/api.php/provide/vod/?ac=list",
       "searchable": 1,
@@ -209,7 +229,7 @@
 
  {
       "key": "heiapi",
-      "name": "hei,
+      "name": "hei",
       "type": 1,
       "api": "https://api.heiapi.cc/api.php/provide/vod/?ac=list",
       "searchable": 1,
@@ -583,7 +603,7 @@
 
         {
             "key": "索尼",
-            "name": "索尼 ",
+            "name": "索尼",
             "type": 1,
             "api": "https://suoniapi.com/api.php/provide/vod/",
                 "searchable": 1,
@@ -601,6 +621,9 @@
 
   "logo": "https://cdn.wmpvp.com/steamWeb/B96F868DE45B45D690B5F9F490D0BC60-1745866248445.gif",
   "lives": [
+
+
+
 {
      "name":"develop202",
      "type":0,
