@@ -173,7 +173,7 @@ def aes_cbc_decrypt(cipher_bytes, key_bytes, iv_bytes):
         return b""
 
 
-def format_remarks(brand="蝴蝶影视", meta=""):
+def format_remarks(brand="影视", meta=""):
     clean_meta = str(meta or "").strip()
     clean_meta = re.sub(r"[\r\n\t]+", " ", clean_meta).strip()
     if clean_meta:
@@ -189,10 +189,10 @@ class Spider(SpiderBase):
         self.apiBase = "https://www.yeguodj.com/api.php"
         self.coverProxy = "https://huangguo.wulii.de5.net"
         self.coverToken = "hg8f3a2c91b7e04d6a"
-        self.tgGroup = "https://t.me/tvshare23"
-        self.brandActor = "🦋 TG群: @tvshare23"
-        self.brandDirector = "🦋 蝴蝶影视"
-        self.brandName = "蝴蝶影视"
+        self.tgGroup = ""
+        self.brandActor = ""
+        self.brandDirector = "影视"
+        self.brandName = "影视"
         self._ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
 
         self.API_KEY = b"2acf7e91e9864673"
