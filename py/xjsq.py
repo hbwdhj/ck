@@ -294,8 +294,8 @@ class Spider(Spider):
                 "vod_year": "2026",
                 "vod_area": "内部",
                 "vod_remarks": "正片",
-                "vod_actor": "🦋 TG群: @tvshare23",
-                "vod_director": "🦋 蝴蝶影视",
+                "vod_actor": "",
+                "vod_director": "影视",
                 "vod_content": vod_content,
                 "vod_play_from": play_from,
                 "vod_play_url": play_url
