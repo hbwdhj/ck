@@ -1,9 +1,8 @@
 import json
 import re
 import sys
-import hashlib
 import base64
-from base64 import b64decode, b64encode
+from base64 import b64decode
 from html import unescape
 from urllib.parse import urlparse, urljoin, quote
 import requests
@@ -48,7 +47,7 @@ class Spider(BaseSpider):
         print(f"使用站点: {self.host}")
 
     def getName(self):
-        return "🌈 51爆料|终极完美版"
+        return "🌈 51爆料|Fanta适配版"
 
     def isVideoFormat(self, url):
         return any(ext in (url or '').lower() for ext in ['.m3u8', '.mp4', '.ts', '.m3u', '.mpd'])
@@ -322,12 +321,14 @@ class Spider(BaseSpider):
 
     def playerContent(self, flag, id, vipFlags):
         try:
+            # Fantaplayer 直接返回原始视频直链，不套localProxy代理
             if self.isVideoFormat(id):
                 return {
                     'parse': 0,
                     'url': id,
                     'header': dict(self.headers)
                 }
+            # 如果传入文章网页链接，自动二次解析提取真实视频地址
             if id.startswith("/") or id.startswith("http"):
                 if not id.startswith("http"):
                     detail_url = self.host + id
@@ -384,6 +385,9 @@ class Spider(BaseSpider):
         try:
             type_ = param.get('type')
             url_enc = param.get('url', '')
+            # Fantaplayer不支持m3u8/ts本地代理，直接404；标准drpy环境也不再做分片重写
+            if type_ in ("m3u8","ts"):
+                return [404, 'text/plain', b'']
             if type_ == 'img':
                 try:
                     real_url = base64.urlsafe_b64decode(url_enc.encode("ascii")).decode("utf-8")
@@ -395,31 +399,15 @@ class Spider(BaseSpider):
                 content = self._decrypt_image(resp.content)
                 ctype = self._image_mime(content, real_url)
                 return [200, ctype, content]
-            elif type_ == 'm3u8':
-                real_url = base64.urlsafe_b64decode(url_enc.encode("ascii")).decode("utf-8")
-                res = self.session.get(real_url, headers=self.headers)
-                data = res.text
-                base = res.url.rsplit('/', 1)[0]
-                lines = []
-                for line in data.split('\n'):
-                    if '#EXT' not in line and line.strip():
-                        if not line.startswith('http'):
-                            line = f"{base}/{line}"
-                        enc = base64.urlsafe_b64encode(line.encode()).decode()
-                        lines.append(f"{self.getProxyUrl()}&url={enc}&type=ts")
-                    else:
-                        lines.append(line)
-                return [200, "application/vnd.apple.mpegurl", '\n'.join(lines)]
-            elif type_ == 'ts':
-                real_url = base64.urlsafe_b64decode(url_enc.encode("ascii")).decode("utf-8")
-                cont = self.session.get(real_url, headers=self.headers).content
-                return [200, 'video/mp2t', cont]
             else:
                 return [404, 'text/plain', b'']
         except Exception:
             return [404, 'text/plain', b'']
 
     def proxy(self, data, type='m3u8'):
+        # 视频流直接返回原始链接，不包装代理url；仅图片走代理
+        if type in ("m3u8","ts"):
+            return data
         if not data:
             return data
         enc = base64.urlsafe_b64encode(str(data).encode()).decode()
