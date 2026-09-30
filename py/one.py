@@ -5,8 +5,12 @@ import re
 import time
 import urllib.parse
 import zlib
+
 import requests
+
 from base.spider import Spider as BaseSpider
+
+
 FILM_FILTERS = {"6_1": "欧美", "6_2": "日本", "6_3": "国产", "6_4": "直播", "6_5": "新作", "3_3": "4K独播", "manga": "漫画", "album": "写真"}
 FILM_ORDER = ("6_3", "6_2", "6_1", "6_5", "3_3", "6_4", "manga", "album")
 ONE_API = "https://api.em1oifd0.com/"
@@ -20,9 +24,13 @@ ONE_SIGN_SUFFIX = "m4n2hjPeYWkD6tFpqKF^3HO^h24P@idT"
 ONE_IMAGE_KEY = b"saIZXc4yMvq0Iz56"
 ONE_IMAGE_IV = b"kbJYtBJUECT0oyjo"
 REQUEST_TIMEOUT = 15
+
+
 def _pad(data):
     length = 16 - (len(data) % 16)
     return data + bytes([length]) * length
+
+
 def _unpad(data):
     if not data:
         return data
@@ -30,6 +38,8 @@ def _unpad(data):
     if length < 1 or length > 16 or data[-length:] != bytes([length]) * length:
         raise ValueError("invalid cipher padding")
     return data[:-length]
+
+
 def _aes(data, key, iv, decrypt=False):
     try:
         from Crypto.Cipher import AES
@@ -44,8 +54,12 @@ def _aes(data, key, iv, decrypt=False):
         source = data if decrypt else _pad(data)
         process = subprocess.run(command, input=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
         return process.stdout
+
+
 def _decrypt_one_image(data):
     return _unpad(_aes(data, ONE_IMAGE_KEY, ONE_IMAGE_IV, decrypt=True))
+
+
 def _image_kind(data):
     if data.startswith(b"\xff\xd8\xff") and data.endswith(b"\xff\xd9"):
         return "image/jpeg"
@@ -56,6 +70,8 @@ def _image_kind(data):
     if data.startswith(b"RIFF") and data[8:12] == b"WEBP" and len(data) >= 12 and int.from_bytes(data[4:8], "little") == len(data) - 8:
         return "image/webp"
     return None
+
+
 def _choose_media(item):
     if not isinstance(item, dict):
         return None
@@ -64,11 +80,15 @@ def _choose_media(item):
         if isinstance(value, str) and value and not Spider._is_audio_path(value) and not any(word in field.lower() for word in ("preview", "trailer", "sample")):
             return field, value
     return None
+
+
 def _diagnostic(message, detail=None):
     safe = str(message).replace("\n", " ")[:180]
     if detail:
         safe += ": " + str(detail).replace("\n", " ")[:180]
     return {"error": safe}
+
+
 class Spider(BaseSpider):
     def __init__(self):
         super().__init__()
@@ -78,9 +98,11 @@ class Spider(BaseSpider):
         self._hosts = {}
         self._session = requests.Session()
         self._session.headers.update({"User-Agent": "Dart/3.4 (dart:io)"})
+
     def init(self, extend=""):
         self.extend = extend or ""
         self._ready = False
+
     def _ensure_ready(self):
         if self._ready:
             return None
@@ -90,6 +112,7 @@ class Spider(BaseSpider):
             return None
         except Exception as error:
             return _diagnostic("初始化失败", type(error).__name__)
+
     def _bootstrap(self):
         last = None
         for line in BOOTSTRAP_LINES:
@@ -106,10 +129,12 @@ class Spider(BaseSpider):
             except Exception as error:
                 last = error
         raise RuntimeError(type(last).__name__ if last else "bootstrap unavailable")
+
     @staticmethod
     def _decode_box(body):
         raw = _unpad(_aes(body, BOX_KEY, BOX_IV, decrypt=True))
         return json.loads(zlib.decompress(raw).decode("utf-8"))
+
     def _one_headers(self):
         timestamp = str(int(time.time()))
         uuid = getattr(self, "_uuid", None) or "48b067ec-6cfd-3491-84f5-023eb1e7d562"
@@ -119,6 +144,7 @@ class Spider(BaseSpider):
         first = hashlib.md5(".".join((ip, platform, timestamp, user_key, uuid)).encode()).hexdigest()
         sign = hashlib.md5((first + ONE_SIGN_SUFFIX).encode()).hexdigest()
         return {"ip": ip, "uuid": uuid, "timestamp": timestamp, "platform": platform, "token": self._token, "sign": sign, "user-key": user_key, "app-version": "2.6.3.1", "Content-Type": "application/x-www-form-urlencoded"}
+
     def _request(self, endpoint, params, retries=1):
         query = "&".join("{}={}".format(key, params[key]) for key in sorted(params))
         encoded = base64.b64encode(_aes(query.encode(), ONE_KEY, ONE_IV)).decode()
@@ -137,13 +163,16 @@ class Spider(BaseSpider):
             if attempt < retries:
                 time.sleep(0.4 * (attempt + 1))
         raise last
+
     def _one_url(self, name, path):
         prefix = self._hosts.get(name, "")
         if not prefix:
             return ""
         return urllib.parse.urljoin(prefix, path.lstrip("/"))
+
     def _proxy_url(self, url):
         return self.getProxyUrl() + "&url=" + urllib.parse.quote(url, safe="")
+
     @staticmethod
     def _is_audio_path(path):
         return isinstance(path, str) and path.lower().split("?", 1)[0].endswith((".mp3", ".m4a", ".aac", ".wav", ".flac"))
@@ -153,7 +182,8 @@ class Spider(BaseSpider):
         cover = item.get("thumb") or item.get("thumbnail") or ""
         if cover and not cover.startswith(("http://", "https://")):
             cover = self._one_url("one_img", cover)
-        # ===== Fantaplayer修改：列表封面不套localProxy代理url，直接返回原始http地址（图片本身加密，客户端直接访问会裂图）=====
+        if cover:
+            cover = self._proxy_url(cover)
         playable = media and not self._is_audio_path(media[1])
         return {"vod_id": str(item.get("id", "")), "vod_name": item.get("title", ""), "vod_pic": cover, "vod_remarks": item.get("video_length", ""), "vod_year": str(item.get("published_at", ""))[:4], "vod_content": item.get("description", ""), "vod_play_from": "One" if playable else "", "vod_play_url": "正片$" + str(item.get("id")) if playable else ""}
 
@@ -163,6 +193,7 @@ class Spider(BaseSpider):
             return error
         classes = [{"type_id": key, "type_name": FILM_FILTERS[key]} for key in FILM_ORDER]
         return {"class": classes, "filters": {}, "list": []}
+
     def homeVideoContent(self):
         return {"list": []}
 
@@ -170,7 +201,8 @@ class Spider(BaseSpider):
         cover = item.get("thumb") or item.get("thumbnail") or ""
         if cover and not cover.startswith(("http://", "https://")):
             cover = self._one_url("one_img", cover)
-        # ===== Fantaplayer修改：漫画/写真列表封面不套代理url =====
+        if cover:
+            cover = self._proxy_url(cover)
         vid = ("m:" if kind == "manga" else "a:") + str(item.get("id", ""))
         return {"vod_id": vid, "vod_name": item.get("title", ""), "vod_pic": cover, "vod_remarks": (item.get("latest_at") or "")[:10], "vod_year": (item.get("first_at") or "")[:4], "vod_content": "作者: {}".format(item.get("author", "")), "vod_play_from": "漫画" if kind == "manga" else "写真", "vod_play_url": "全篇${}".format(vid)}
 
@@ -205,6 +237,7 @@ class Spider(BaseSpider):
         if month_back >= 0:
             page_count = page + 1 if self._has_next(model, tag, month_back, inner_page) else page
         return {"page": page, "pagecount": page_count, "limit": 20, "total": len(rows), "list": rows}
+
     @staticmethod
     def _month_str(back):
         import datetime
@@ -214,6 +247,7 @@ class Spider(BaseSpider):
             month += 12
             year -= 1
         return "%04d-%02d" % (year, month)
+
     def _monthly_discovery(self, model, tag, page, months=12):
         acc = 0
         for back in range(months):
@@ -231,6 +265,7 @@ class Spider(BaseSpider):
                 return first, back, inner
             acc += pages
         return [], -1, 1
+
     def _has_next(self, model, tag, month_back, inner_page):
         try:
             if inner_page > 1:
@@ -245,6 +280,7 @@ class Spider(BaseSpider):
             return False
         except Exception:
             return True
+
     def detailContent(self, ids):
         error = self._ensure_ready()
         if error:
@@ -263,6 +299,8 @@ class Spider(BaseSpider):
                 cover = d.get("thumb") or ""
                 if cover and not cover.startswith(("http://", "https://")):
                     cover = self._one_url("one_img", cover)
+                if cover:
+                    cover = self._proxy_url(cover)
                 play_url = "#".join("{}${}".format((c.get("title") or "第{}话".format(c.get("chapter", ""))).replace("#", " ").replace("$", " "), c.get("id")) for c in chapters if c.get("id"))
                 detail = {"vod_id": raw, "vod_name": d.get("title", ""), "vod_pic": cover, "vod_year": (d.get("first_at") or "")[:4], "vod_area": "", "vod_class": "", "vod_director": "", "vod_actor": d.get("author", ""), "vod_content": d.get("description", ""), "vod_remarks": "共{}话".format(len(chapters)), "vod_play_from": "漫画" if kind == "m" else "写真", "vod_play_url": play_url}
                 return {"list": [detail]}
@@ -284,6 +322,7 @@ class Spider(BaseSpider):
             return {"list": [detail]}
         except Exception as error:
             return _diagnostic("详情请求失败", type(error).__name__)
+
     def searchContent(self, key, quick, pg="1"):
         error = self._ensure_ready()
         if error:
@@ -303,6 +342,7 @@ class Spider(BaseSpider):
             return {"list": rows, "page": page, "pagecount": page if len(rows) < 20 else page + 1, "limit": 20, "total": len(rows)}
         except Exception:
             return {"list": [], "page": 1, "pagecount": 1, "limit": 0, "total": 0}
+
     def playerContent(self, flag, id, vipFlags):
         error = self._ensure_ready()
         if error:
@@ -332,6 +372,7 @@ class Spider(BaseSpider):
             return {"parse": 0, "playUrl": "", "url": self._one_url("one_video", path), "header": {"User-Agent": "Dart/3.4 (dart:io)"}, "media_field": field}
         except Exception as error:
             return _diagnostic("播放请求失败", type(error).__name__)
+
     def localProxy(self, param):
         if not isinstance(param, dict):
             return [400, "text/plain", b"invalid proxy parameters"]
