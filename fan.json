@@ -220,6 +220,21 @@
 
 
 {
+"key": "panda",
+"name": "韩国熊猫",
+"type": 3,
+"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/panda.py"
+
+},
+
+
+
+
+
+
+
+
+{
 "key": "bnzb",
 "name": "百年聚合",
 "type": 3,
