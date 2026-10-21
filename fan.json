@@ -52,6 +52,258 @@
 
 
 
+ {
+            "key": "Nostr",
+            "name": "🍏Nostr推荐[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://www.252035.xyz/xs/tvbox/nostr.html"
+        },
+
+
+  {
+            "key": "Emby-在线",
+            "name": "💓Emby-在线[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://emby-7ks.pages.dev"
+        },
+
+
+  {
+            "key": "Emby-本地",
+            "name": "💓Emby-本地[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://sdjnhj.github.io/jnhj.github.io/emby-7.html"
+        },
+
+
+
+
+
+
+    {
+            "key": "Nostr-tv",
+            "name": "💻Nostr-tv[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://nostrtv.aws.dpdns.org/"
+        },
+
+
+
+       {
+            "key":"Nostr-mb",
+            "name": "📔Nostr-mb[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://noir-cmp.pages.dev/"
+        },
+
+
+
+
+   {
+            "key": "Pan-在线",
+            "name": "🎰盘链-在线[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://pl-d8z.pages.dev"
+        },
+
+
+
+
+   {
+            "key": "Pan-本地",
+            "name": "🎰盘链-本地[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://sdjnhj.github.io/jnhj.github.io/pl.html"
+        },
+
+
+
+
+
+
+     {
+        "key":"Eclipse-在线",
+        "name":"📽影库Eclipse-在线[影视]",
+        "type":3,
+        "api":"csp_eclipse",
+        "homePage":"https://vvee.ccwu.cc"
+      },
+
+
+
+
+
+     {
+        "key":"Eclipse-本地",
+        "name":"📽影库Eclipse-本地[影视]",
+        "type":3,
+        "api":"csp_eclipse",
+        "homePage":"https://sdjnhj.github.io/jnhj.github.io/Ecl.html"
+      },
+
+
+
+
+
+  {
+            "key": "Nostv",
+            "name": "📺Nos-本地[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://sdjnhj.github.io/jnhj.github.io/nostv.html"
+        },
+        
+        
+
+  {
+            "key": "tgsou",
+            "name": "🍺Tgsou[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://sdjnhj.github.io/jnhj.github.io/tgsou.html"
+        },
+
+
+
+
+
+
+
+
+  {
+            "key": "4K本地",
+            "name": "🥝4K指南[影视]",
+            "type": 3,
+            "api": "csp_Nostr",
+            "homePage": "https://sdjnhj.github.io/jnhj.github.io/4kzn.html"
+        },
+        
+
+
+
+
+     {
+            "key":"玩偶H",
+            "name": "🎨玩偶[影视]",
+            "type":3,
+            "api":"csp_Nostr",
+            "homePage": "https://wo.vivas.cc.cd"
+        },
+
+
+      {
+            "key":"pomo",
+            "name": "🎞赛博[影视]",
+            "type":3,
+            "api":"csp_Nostr",
+            "homePage": "https://cyber.920410.xyz"
+        },          
+
+
+
+
+      {
+        "key":"PTT",
+        "name":"⏱️PTT[影视]",
+        "type":3,
+        "api":"csp_ptt",
+        "homePage":"https://fgblh.github.io/uhuj.github.io/ptt.html"
+      },
+      
+      
+      
+ 
+      
+      
+     {
+        "key":"油管-在线",
+        "name":"🚂油管-在线[影视]",
+        "type":3,
+        "api":"csp_youtube",
+        "homePage":" https://yt-cas.pages.dev"
+      },
+
+
+     {
+        "key":"油管-本地",
+        "name":"🚂油管-本地[影视]",
+        "type":3,
+        "api":"csp_youtube",
+        "homePage":"https://sdjnhj.github.io/jnhj.github.io/yt.html"
+      },
+
+      
+
+      
+       {
+        "key":"哔哩",
+        "name":"💦哔哩[影视]",
+        "type":3,
+        "api":"csp_bl",
+        "homePage":"https://bili-1k4.pages.dev"
+      },    
+
+
+
+       {
+        "key":"直播聚合",
+        "name":"🐯直播聚合[影视]",
+        "type":3,
+        "api":"csp_live",
+        "homePage":"https://live-a3r.pages.dev/"
+      },    
+
+
+      
+     {
+        "key":"QQ音乐",
+        "name":"🎶QQ音乐[影视]",
+        "type":3,
+        "api":"csp_qq",
+        "homePage":"https://q-16a.pages.dev"
+      },      
+
+
+
+     {
+        "key":"📘听书",
+        "name":"📘听书[影视]",
+        "type":3,
+        "api":"csp_ts",
+        "homePage":"https://ts-agk.pages.dev/"
+      },      
+
+
+
+
+
+
+
+
+
+        {
+            "key": "网页配置",
+            "name": "👨‍🍳配置[影视]",
+            "type": 3,
+            "api": "csp_Config",
+            "searchable": 0,
+            "changeable": 0,
+            "indexs": 0,
+            "style": {
+                "type": "rect",
+                "ratio": 1.597
+            }
+        },
+
+
+
 
 
 {
@@ -124,16 +376,6 @@
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/51aw.py"
 
 },
-
-
-{
-"key": "mds",
-"name": "麻豆社",
-"type": 3,
-"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/mds.py"
-
-},
-
 
 
 
@@ -215,21 +457,6 @@
 "api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/txvlog②.py"
 
 },
-
-
-
-
-{
-"key": "panda",
-"name": "韩国熊猫",
-"type": 3,
-"api": "https://ghfast.top/https://raw.githubusercontent.com/hbwdhj/ck/refs/heads/main/py/panda.py"
-
-},
-
-
-
-
 
 
 
